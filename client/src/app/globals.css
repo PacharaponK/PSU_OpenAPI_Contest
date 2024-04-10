@@ -7,3 +7,10 @@
 * {
     font-family: 'Prompt', sans-serif;
 }
+
+.landing-image {
+    background-image: url("https://cdn.discordapp.com/attachments/705005230944813076/1227658819484651633/6.jpg?ex=6629355f&is=6616c05f&hm=2af1c2b7775482e2c358b1b18f13e55f56d275ae91b08b6e59b53cf915ea1b76&");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
