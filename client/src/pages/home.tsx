@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Link from "next/link";
 import Carousel from "../components/Carousel";
 import Footer from "../components/Footer";
+import { useAuth } from "react-oidc-context";
+import axios from "axios";
 
 export function Landing() {
     return (
@@ -29,6 +31,20 @@ export function Landing() {
 }
 
 function HomePage() {
+    const auth = useAuth();
+
+    const [studentDetail, setStudentDetail] = useState(null)
+    const fectStudentDetail = async () => {
+        const result = await axios.get(`https://api-gateway.psu.ac.th/Test/regist/level2/StudentDetailCampus/01/token`, {
+            headers: {
+                credential: 'api_key=ARdj9JMA3UHQLwABr+Vv5JfuJCBZXr81',
+                token: auth.user?.access_token
+            }
+        })
+        setStudentDetail(result.data.data[0])
+    }
+
+
     return (
         <div>
             <div>
