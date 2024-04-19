@@ -1,16 +1,20 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
-import Link from 'next/link'
-import Carousel from '../components/Carousel'
-import Footer from '../components/Footer'
+import React from "react";
+import Navbar from "../components/Navbar";
+import Link from "next/link";
+import Carousel from "../components/Carousel";
+import Footer from "../components/Footer";
 
 export function Landing() {
     return (
-        <div className='h-[60vh] landing-image flex flex-col justify-center'>
-            <div className='text-left lg:pt-10 flex flex-row justify-center items-center space-x-10'>
+        <div className="h-[60vh] landing-image flex flex-col justify-center">
+            <div className="text-left lg:pt-10 flex flex-row justify-center items-center space-x-10">
                 <div>
-                    <h1 className='text-white lg:text-3xl md:text-2xl sm:text-lg font-bold'>ทำให้การกรอกเเบบฟอร์มเป็นเรื่องง่าย</h1>
-                    <p className='lg:text-xl md:text-lg text-white'>ตัวช่วยในการกรอกเเบบฟอร์มของมหาวิทยาลัยสงขลานครินทร์</p>
+                    <h1 className="text-white lg:text-3xl md:text-2xl sm:text-lg font-bold">
+                        ทำให้การกรอกเเบบฟอร์มเป็นเรื่องง่าย
+                    </h1>
+                    <p className="lg:text-xl md:text-lg text-white">
+                        ตัวช่วยในการกรอกเเบบฟอร์มของมหาวิทยาลัยสงขลานครินทร์
+                    </p>
                     <button
                         type="button"
                         className="mt-6 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
@@ -18,10 +22,10 @@ export function Landing() {
                         ไปกันเลย !!
                     </button>
                 </div>
-                    <Carousel />
+                <Carousel />
             </div>
         </div>
-    )
+    );
 }
 
 function HomePage() {
@@ -31,12 +35,12 @@ function HomePage() {
                 <Navbar />
             </div>
             {Landing()}
-            <div className='flex bg-gray-200 h-full lg:px-10 lg:pb-10 items-start'>
-                <div className='flex flex-col'>
-                    <div className='space-y-7'>
-                        <div className='pt-10 space-x-3 flex flex-row'>
-                            <div className='flex space-x-3'>
-                                <div className='bg-[#826448] w-[7vw] rounded-full max-lg:hidden'></div>
+            <div className="flex bg-gray-200 h-full lg:px-10 lg:pb-10 items-start">
+                <div className="flex flex-col">
+                    <div className="space-y-7">
+                        <div className="pt-10 space-x-3 flex flex-row">
+                            <div className="flex space-x-3">
+                                <div className="bg-[#826448] w-[7vw] rounded-full max-lg:hidden"></div>
                                 <svg
                                     width="32"
                                     height="32"
@@ -51,13 +55,13 @@ function HomePage() {
                                     <path d="M17 13V11H11V13H17Z" fill="currentColor" />
                                     <path d="M17 7V9H11V7H17Z" fill="currentColor" />
                                 </svg>
-                                <span className='text-2xl font-semibold'>แบบฟอร์มทั่วไป</span>
-                                <div className='bg-[#826448] w-[70vw] rounded-full'></div>
+                                <span className="text-2xl font-semibold">แบบฟอร์มทั่วไป</span>
+                                <div className="bg-[#826448] w-[70vw] rounded-full"></div>
                             </div>
                         </div>
-                        <div className='lg:px-24 flex flex-wrap space-x-5'>
+                        <div className="lg:px-24 flex flex-wrap space-x-5">
                             <Link href="/">
-                                <div className='flex flex-col items-center hover:bg-slate-100 p-4 rounded-full'>
+                                <div className="flex flex-col items-center hover:bg-slate-100 p-4 rounded-full">
                                     <svg
                                         width="30"
                                         height="30"
@@ -79,7 +83,7 @@ function HomePage() {
                                 </div>
                             </Link>
                             <Link href="/">
-                                <div className='flex flex-col items-center hover:bg-slate-100 p-4 rounded-full'>
+                                <div className="flex flex-col items-center hover:bg-slate-100 p-4 rounded-full">
                                     <svg
                                         width="30"
                                         height="30"
@@ -102,10 +106,10 @@ function HomePage() {
                             </Link>
                         </div>
                     </div>
-                    <div className='space-y-7'>
-                        <div className='pt-10 space-x-3 flex flex-row'>
-                            <div className='flex space-x-3'>
-                                <div className='bg-[#826448] w-[7vw] rounded-full max-lg:hidden'></div>
+                    <div className="space-y-7">
+                        <div className="pt-10 space-x-3 flex flex-row">
+                            <div className="flex space-x-3">
+                                <div className="bg-[#826448] w-[7vw] rounded-full max-lg:hidden"></div>
                                 <svg
                                     width="32"
                                     height="32"
@@ -120,13 +124,15 @@ function HomePage() {
                                     <path d="M17 13V11H11V13H17Z" fill="currentColor" />
                                     <path d="M17 7V9H11V7H17Z" fill="currentColor" />
                                 </svg>
-                                <span className='text-2xl font-semibold'>แบบฟอร์มคนที่เจ็บ</span>
-                                <div className='bg-[#826448] w-[68vw] rounded-full'></div>
+                                <span className="text-2xl font-semibold">
+                                    แบบฟอร์มคนที่เจ็บ
+                                </span>
+                                <div className="bg-[#826448] w-[68vw] rounded-full"></div>
                             </div>
                         </div>
-                        <div className='lg:px-24 flex flex-wrap space-x-5'>
+                        <div className="lg:px-24 flex flex-wrap space-x-5">
                             <Link href="/">
-                                <div className='flex flex-col items-center hover:bg-slate-100 p-4 rounded-full'>
+                                <div className="flex flex-col items-center hover:bg-slate-100 p-4 rounded-full">
                                     <svg
                                         width="30"
                                         height="30"
@@ -148,7 +154,7 @@ function HomePage() {
                                 </div>
                             </Link>
                             <Link href="/">
-                                <div className='flex flex-col items-center hover:bg-slate-100 p-4 rounded-full'>
+                                <div className="flex flex-col items-center hover:bg-slate-100 p-4 rounded-full">
                                     <svg
                                         width="30"
                                         height="30"
@@ -173,11 +179,11 @@ function HomePage() {
                     </div>
                 </div>
             </div>
-            <div className=''>
-                <Footer/>
+            <div className="">
+                <Footer />
             </div>
         </div>
-    )
+    );
 }
 
-export default HomePage
+export default HomePage;
