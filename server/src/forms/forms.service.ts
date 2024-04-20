@@ -10,7 +10,7 @@ export class FormsService {
   constructor(
     @InjectRepository(Form)
     private formRepository: Repository<Form>,
-  ) {}
+  ) { }
   async create(createFormDto: CreateFormDto) {
     const createForm = this.formRepository.create(createFormDto);
     return await this.formRepository.save(createForm);
@@ -22,14 +22,20 @@ export class FormsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} form`;
+    const specificForm = this.formRepository.findOne({
+      where: { id: id },
+    });
+    return specificForm;
   }
 
-  update(id: number, updateFormDto: UpdateFormDto) {
-    return `This action updates a #${id} form`;
+  async update(id: number, updateFormDto: UpdateFormDto) {
+    const updateBook = this.formRepository.update(id, updateFormDto);
+    return updateBook;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} form`;
+  async remove(id: number) {
+    const removeForm = await this.findOne(id);
+    await this.formRepository.delete(id);
+    return { status: 'Success', deleted: removeForm };
   }
 }

@@ -5,7 +5,7 @@ import { UpdateFormDto } from './dto/update-form.dto';
 
 @Controller('forms')
 export class FormsController {
-  constructor(private readonly formsService: FormsService) {}
+  constructor(private readonly formsService: FormsService) { }
 
   @Post()
   create(@Body() createFormDto: CreateFormDto) {
