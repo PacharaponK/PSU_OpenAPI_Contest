@@ -1,6 +1,8 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import { Suspense } from "react";
 import { AuthProvider } from "react-oidc-context";
+import Loading from "./loading";
 
 const oidcConfig = {
   onSigninCallback: (user: any) => {
