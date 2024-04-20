@@ -17,7 +17,7 @@ export class FormsService {
   }
 
   findAll() {
-    const listAllForms = this.formRepository.find();
+    const listAllForms = this.formRepository.find({relations: ['category']});
     return listAllForms;
   }
 
