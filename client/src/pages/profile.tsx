@@ -8,6 +8,8 @@ import { useAuth } from 'react-oidc-context'
 function Profile() {
     const auth = useAuth();
     const app = useRouter();
+    console.log("token:", auth.user?.access_token);
+    
 
     const [studentDetail, setStudentDetail] = useState<any>(null)
     const fectStudentDetail = async () => {
@@ -23,7 +25,7 @@ function Profile() {
         if (auth.isAuthenticated) {
             fectStudentDetail()
         }
-    }, [])
+    }, [] )
 
     console.log(studentDetail);
 
