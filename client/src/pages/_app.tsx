@@ -3,10 +3,12 @@ import type { AppProps } from "next/app";
 import { Suspense } from "react";
 import { AuthProvider } from "react-oidc-context";
 import Loading from "./loading";
+import conf from "@/conf/main";
+import { Route } from "@/modules/routes";
 
 const oidcConfig = {
   onSigninCallback: (user: any) => {
-    window.location.href = '/home'
+    window.location.href = `${Route.form.formList}`
   },
   authority: 'http://psusso-test.psu.ac.th/application/o/psuapi-contest-nextapi',
   client_id:
@@ -15,7 +17,7 @@ const oidcConfig = {
   response_ype: 'code',
   silent_renew: true,
   use_refresh_token: true,
-  redirect_uri: 'http://localhost:3000/home',
+  redirect_uri: `${conf.clientPreflix}${Route.form.formList}`,
 };
 
 export default function App({ Component, pageProps }: AppProps) {

@@ -84,7 +84,7 @@ function HomePage() {
                                     <>
                                         <div className="lg:px-24 flex flex-col flex-wrap space-x-5">
                                             <div className="ml-10 pb-1">
-                                                <Link href="/" className="hover:text-gray-700 hover:font-bold flex flex-row items-center">
+                                                <Link href={`form/${form.id}`} className="hover:text-gray-700 hover:font-bold flex flex-row items-center">
                                                     <svg
                                                         width="30"
                                                         height="30"
