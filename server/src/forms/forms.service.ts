@@ -16,20 +16,29 @@ export class FormsService {
     return await this.formRepository.save(createForm);
   }
 
-  findAll() {
-    const listAllForms = this.formRepository.find({relations: ['category']});
+  async findAll() {
+    const listAllForms = await this.formRepository.find({ relations: ['category'] });
     return listAllForms;
   }
 
-  findOne(id: number) {
-    const specificForm = this.formRepository.findOne({
+  async findOne(id: number) {
+    const specificForm = await this.formRepository.findOne({
       where: { id: id },
     });
     return specificForm;
   }
 
+  async findByName(name: string) {
+    const findForm = await this.formRepository.find({
+      where: {
+        name: name
+      }
+    });
+    return findForm;
+  }
+
   async update(id: number, updateFormDto: UpdateFormDto) {
-    const updateBook = this.formRepository.update(id, updateFormDto);
+    const updateBook = await this.formRepository.update(id, updateFormDto);
     return updateBook;
   }
 
