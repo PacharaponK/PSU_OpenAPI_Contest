@@ -44,10 +44,6 @@ function HomePage() {
         fetchFormsByCategory();
     }, [])
 
-    const displayForms = () => {
-
-    }
-
     return (
         <div>
             <div>

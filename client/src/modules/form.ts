@@ -8,3 +8,5 @@ export const FormScheme = z.array(
         picDetailURL: z.array(z.string()),
         pdfURL: z.string(),
 }))
+
+export type Form = z.infer<typeof FormScheme>
