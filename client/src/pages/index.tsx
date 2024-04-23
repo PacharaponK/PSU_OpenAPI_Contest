@@ -39,7 +39,7 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen flex flex-col space-y-4 justify-center items-center">
+    <div className="h-screen background-image flex flex-col space-y-4 justify-center items-center">
       <Image src={'/animation.gif'} alt='Home Page' width={'100'} height={'500'} />
       <div>
         <h1 className="text-black lg:text-3xl md:text-2xl sm:text-lg font-bold">

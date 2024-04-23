@@ -43,14 +43,11 @@ function Profile() {
     }
   }, [auth.isAuthenticated, auth.user]);
 
-  console.log(studentDetail);
-  console.log(studentImage);
-
   if (!auth.isAuthenticated) {
     return <div>Please Login First</div>;
   }
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen">
+    <div className="flex flex-col justify-center items-center min-h-screen background-image">
       <Navbar />
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-3xl font-bold mb-4">ข้อมูลส่วนตัว</h1>

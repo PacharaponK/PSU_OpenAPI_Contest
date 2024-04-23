@@ -54,14 +54,14 @@ function HomePage() {
                 <Navbar />
             </div>
             {Landing()}
-            <div className="flex bg-gray-200 h-full lg:px-10 lg:pb-10 items-start">
+            <div className="flex background-image h-full lg:px-10 lg:pb-10 items-start">
                 <div className="flex flex-col">
-                    {(categoryWithForms) ?
+                {(categoryWithForms) ?
                         categoryWithForms.map((category) => <>
                             <div className="space-y-7">
                                 <div className="pt-10 space-x-3 flex flex-row">
                                     <div className="flex space-x-3">
-                                        <div className="bg-[#826448] w-[7vw] rounded-full max-lg:hidden"></div>
+                                        <div className="bg-cyan-600 w-[7vw] rounded-full max-lg:hidden"></div>
                                         <svg
                                             width="32"
                                             height="32"
@@ -77,7 +77,7 @@ function HomePage() {
                                             <path d="M17 7V9H11V7H17Z" fill="currentColor" />
                                         </svg>
                                         <span className="text-2xl font-semibold">{category.name}</span>
-                                        <div className="bg-[#826448] w-[70vw] rounded-full"></div>
+                                        <div className="bg-cyan-600 w-[70vw] rounded-full"></div>
                                     </div>
                                 </div>
                                 {category.forms.map((form) =>
@@ -107,6 +107,7 @@ function HomePage() {
                                             </div>
                                         </div>
                                     </>)}
+                                    
                             </div>
                         </>)
                         : <></>}
