@@ -45,7 +45,7 @@ export class FormsController {
         pdfURL: `/posts/pdf/${file.filename}`
       })
       const response = {
-        filePath: `http://localhost:1337/posts/pdf/${file.filename}`
+        filePath: `http://localhost:1337/forms/posts/pdf/${file.filename}`
 
       };
       return response;

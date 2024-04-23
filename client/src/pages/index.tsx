@@ -7,7 +7,7 @@ export default function Home() {
 
   async function modifyPdf() {
     try {
-      const url = 'http://localhost:1337/posts/pdf/change_1713609515797.pdf'
+      const url = 'http://localhost:1337/forms/posts/pdf/general_1713886455741.pdf'
       const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
 
       const pdfDoc = await PDFDocument.load(existingPdfBytes)
@@ -49,14 +49,14 @@ export default function Home() {
       <div>
         <button
           type="button"
-          className="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           onClick={() => auth.signinRedirect()}
         >
           Log in
         </button>
         <button
           type="button"
-          className="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           onClick={() => modifyPdf()}
         >
           Download
