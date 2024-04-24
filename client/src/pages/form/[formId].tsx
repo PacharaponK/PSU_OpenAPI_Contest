@@ -23,49 +23,6 @@ function FormIdPage() {
         }
     };
 
-    // async function modifyPdf() {
-    //     const url = 'https://raw.githubusercontent.com/PacharaponK/PSU_OpenAPI_Contest/main/uploads/THSarabunNew.ttf'
-    //     const fontBytes = await fetch(url).then(res => res.arrayBuffer())
-
-    //     const pdfDoc = await PDFDocument.create()
-
-    //     pdfDoc.registerFontkit(fontkit)
-    //     const customFont = await pdfDoc.embedFont(fontBytes)
-
-    //     const page = pdfDoc.addPage()
-
-    //     const text = 'พชรพล'
-    //     const textSize = 35
-    //     const textWidth = customFont.widthOfTextAtSize(text, textSize)
-    //     const textHeight = customFont.heightAtSize(textSize)
-
-    //     page.drawText(text, {
-    //         x: 40,
-    //         y: 450,
-    //         size: textSize,
-    //         font: customFont,
-    //         color: rgb(0, 0.53, 0.71),
-    //     })
-    //     page.drawRectangle({
-    //         x: 40,
-    //         y: 450,
-    //         width: textWidth,
-    //         height: textHeight,
-    //         borderColor: rgb(1, 0, 0),
-    //         borderWidth: 1.5,
-    //     })
-
-    //     const pdfBytes = await pdfDoc.save()
-    //     const blob = new Blob([pdfBytes], { type: "application/pdf" });
-    //     const downloadURL = URL.createObjectURL(blob);
-    //     const link = document.createElement("a");
-    //     link.href = downloadURL;
-    //     link.download = "modified_pdf.pdf";
-    //     link.click();
-    //     URL.revokeObjectURL(url);
-        
-    // }
-
     async function modifyPdf() {
         try {
             const url = 'http://localhost:1337/forms/posts/pdf/general_1713886455741.pdf'

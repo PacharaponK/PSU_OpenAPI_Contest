@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "react-oidc-context";
 import Image from "next/image";
 import DropdownPF from "@/components/DropdownPF";
+import conf from "@/conf/main";
 
 function Profile() {
   const auth = useAuth();
@@ -18,20 +19,18 @@ function Profile() {
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const fectStudentDetail = async () => {
     const result = await axios.get(
-      `https://api-gateway.psu.ac.th/Test/regist/level2/StudentDetailCampus/01/token`,
+      `${conf.urlPrefix}/psu-api/studentDetail`,
       {
         headers: {
-          credential: "api_key=ARdj9JMA3UHQLwABr+Vv5JfuJCBZXr81",
           token: auth.user?.access_token,
         },
       }
     );
     setStudentDetail(result.data.data[0]);
     const imgresult = await axios.get(
-      `https://api-gateway.psu.ac.th/Test/regist/level2/StudentImage/token`,
+      `${conf.urlPrefix}/psu-api/studentImage`,
       {
         headers: {
-          credential: "api_key=ARdj9JMA3UHQLwABr+Vv5JfuJCBZXr81",
           token: auth.user?.access_token,
         },
       }

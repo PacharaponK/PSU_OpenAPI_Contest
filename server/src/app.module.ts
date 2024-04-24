@@ -6,6 +6,7 @@ import { FormsModule } from './forms/forms.module';
 import { Form } from './forms/entities/form.entity';
 import { CategoriesModule } from './categories/categories.module';
 import { Category } from './categories/entities/category.entity';
+import { PsuApiModule } from './psu-api/psu-api.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -13,7 +14,7 @@ import { Category } from './categories/entities/category.entity';
     database: './app.sqlite',
     entities: [Form, Category],
     synchronize: process.env.NODE_ENV !== 'production'
-  }), FormsModule, CategoriesModule],
+  }), FormsModule, CategoriesModule, PsuApiModule],
   controllers: [AppController],
   providers: [AppService],
 })
