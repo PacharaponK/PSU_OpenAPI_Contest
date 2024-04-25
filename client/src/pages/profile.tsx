@@ -1,48 +1,25 @@
-"use client";
-
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "react-oidc-context";
 import Image from "next/image";
 import DropdownPF from "@/components/DropdownPF";
-import conf from "@/conf/main";
+import { useStudentContext } from "../contexts/StudentContext";
 
 function Profile() {
+  const { studentDetail, studentImage, fetchStudentDetail } =
+    useStudentContext();
   const auth = useAuth();
   const app = useRouter();
   console.log("token:", auth.user?.access_token);
 
-  const [studentDetail, setStudentDetail] = useState<any>(null);
-  const [studentImage, setStudentImage] = useState<any>(null);
   const [showDetails, setShowDetails] = useState<boolean>(false);
-  const fectStudentDetail = async () => {
-    const result = await axios.get(
-      `${conf.urlPrefix}/psu-api/studentDetail`,
-      {
-        headers: {
-          token: auth.user?.access_token,
-        },
-      }
-    );
-    setStudentDetail(result.data.data[0]);
-    const imgresult = await axios.get(
-      `${conf.urlPrefix}/psu-api/studentImage`,
-      {
-        headers: {
-          token: auth.user?.access_token,
-        },
-      }
-    );
-    setStudentImage(imgresult.data.data[0]);
-  };
 
   useEffect(() => {
     if (auth.isAuthenticated) {
-      fectStudentDetail();
     }
-  }, [auth.isAuthenticated, auth.user]);
+  }, [auth.isAuthenticated, auth.user, fetchStudentDetail]);
 
   console.log(studentDetail);
   console.log(studentImage);
@@ -67,7 +44,7 @@ function Profile() {
                 alt="Student Image"
                 width={200}
                 height={200}
-                className="rounded-md" //rounded-full
+                className="rounded-md"
               />
             )}
           </div>
