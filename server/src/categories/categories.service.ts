@@ -17,7 +17,9 @@ export class CategoriesService {
   }
   1
   async findAll() {
-    const listAllCategory = await this.categoryRepository.find({ relations: ["forms"] });
+    const listAllCategory = await this.categoryRepository.find({
+      relations: ["forms"],
+    });
     return listAllCategory;
   }
 

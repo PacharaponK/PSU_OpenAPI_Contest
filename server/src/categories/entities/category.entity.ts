@@ -9,6 +9,9 @@ export class Category {
     @Column({unique: true})
     name: string;
 
+    @Column({nullable: true})
+    criterion: string;
+
     @OneToMany(() => Form, (form) => form.category)
     forms: Form[];
 }

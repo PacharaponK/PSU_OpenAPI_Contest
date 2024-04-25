@@ -9,7 +9,7 @@ export class Form {
     @Column()
     name: string;
 
-    @Column()
+    @Column({nullable: true})
     detail: string;
 
     @Column("simple-array")
