@@ -3,6 +3,7 @@ import React from "react";
 import { useAuth } from "react-oidc-context";
 import Image from "next/image";
 import { useStudentContext } from "../contexts/StudentContext";
+import Link from "next/link";
 
 export const PSU: string =
   "https://cdn.discordapp.com/attachments/705005230944813076/1227656307041894472/5.png?ex=66293308&is=6616be08&hm=0fe6e1f656c261047f82ecc38a43c9f240af42f8ba2d8bd27697d111002d2e46&";
@@ -23,10 +24,10 @@ function Navbar() {
         <div className="px-4">
           <div className="flex items-center justify-between">
             <div className="flex shrink-0">
-              <a aria-current="page" className="flex items-center" href="/form">
+              <Link aria-current="page" className="flex items-center" href="/form">
                 <img className="h-10 w-auto" src={PSU} alt="" />
                 <p></p>
-              </a>
+              </Link>
             </div>
             <div className="hidden md:flex md:items-center md:justify-center md:gap-5">
               {/* <a aria-current="page"
@@ -36,12 +37,12 @@ function Navbar() {
                                 href="#">Pricing</a> */}
             </div>
             <div className="flex items-center justify-end gap-3">
-              <a
+              <Link
                 className="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 sm:inline-flex"
                 href="/profile"
               >
                 Profile
-              </a>
+              </Link>
               <button
                 type="button"
                 onClick={() => Logout()}
@@ -71,10 +72,10 @@ function Navbar() {
         <div className="px-4">
           <div className="flex items-center justify-between">
             <div className="flex shrink-0">
-              <a aria-current="page" className="flex items-center" href="/form">
+              <Link aria-current="page" className="flex items-center" href="/form">
                 <img className="h-10 w-auto" src={PSU} alt="" />
                 <p></p>
-              </a>
+              </Link>
             </div>
             <div className="hidden md:flex md:items-center md:justify-center md:gap-5">
               {/* <a aria-current="page"
