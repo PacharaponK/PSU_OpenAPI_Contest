@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, Res, BadRequestException, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, Res, BadRequestException, UploadedFile, UseInterceptors, ClassSerializerInterceptor, SerializeOptions } from '@nestjs/common';
 import { FormsService } from './forms.service';
 import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
@@ -6,6 +6,7 @@ import { Response } from 'express';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('forms')
 export class FormsController {
   constructor(private readonly formsService: FormsService) { }
@@ -62,11 +63,13 @@ export class FormsController {
     return res.sendFile(filename, { root: './uploads' })
   }
 
+  @SerializeOptions({groups: ['detail']})
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.formsService.findOne(+id);
   }
 
+  @SerializeOptions({groups: ['detail']})
   @Put(':id')
   update(@Param('id') id: string, @Body() updateFormDto: UpdateFormDto) {
     return this.formsService.update(+id, updateFormDto);

@@ -1,3 +1,4 @@
+import { Expose } from "class-transformer";
 import { Category } from "src/categories/entities/category.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -9,14 +10,29 @@ export class Form {
     @Column()
     name: string;
 
+    @Expose({ groups: ['detail']})
     @Column({nullable: true})
     detail: string;
 
-    @Column("simple-array")
+    @Expose({ groups: ['detail']})
+    @Column("simple-array", { nullable: true })
     picDetailURL: string[]
 
     @Column()
     pdfURL: string;
+
+    @Expose({ groups: ['detail']})
+    @Column({nullable: true})
+    pageModified: number;
+
+    @Expose({ groups: ['detail']})
+    @Column("simple-json", {nullable: true})
+    modifiedConfig : {
+        type: string,
+        posX: number,
+        posY: number,
+        data: string,
+    }[]
 
     @ManyToOne(() => Category, (category) => category.forms, {cascade: true})
     category: Category;
