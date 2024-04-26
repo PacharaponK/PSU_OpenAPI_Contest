@@ -8,6 +8,8 @@ import { PDFDocument, StandardFonts, degrees, rgb } from 'pdf-lib';
 import React, { useEffect, useState } from 'react'
 import fontkit from '@pdf-lib/fontkit';
 import { useAuth } from 'react-oidc-context';
+import { Route } from '@/modules/routes';
+import PreviewModal from '@/components/PreviewModal';
 
 function FormIdPage() {
     const router = useRouter();
@@ -15,6 +17,8 @@ function FormIdPage() {
     const formId = router.query.formId;
     const [form, setForm] = useState<SingleForm>();
     const [studentDetail, setStudentDetail] = useState<any>(null);
+    const [pdfUrl, setPdfUrl] = useState<string>()
+    const [openModal, setOpenModal] = useState<boolean>(false);
     console.log(studentDetail);
     
 
@@ -42,20 +46,19 @@ function FormIdPage() {
 
         async function modifyPdf() {
             try {
-                const url = 'http://localhost:1337/forms/posts/pdf/general_1713886455741.pdf'
-                const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
+                const url = `${conf.urlPrefix}/forms${form?.pdfURL}`;
+                const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());
 
-                const pdfDoc = await PDFDocument.load(existingPdfBytes)
-                const fontUrl = 'https://raw.githubusercontent.com/PacharaponK/PSU_OpenAPI_Contest/main/uploads/THSarabunNew.ttf'
-                const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer())
+                const pdfDoc = await PDFDocument.load(existingPdfBytes);
+                const fontUrl = 'https://raw.githubusercontent.com/PacharaponK/PSU_OpenAPI_Contest/main/uploads/THSarabunNew.ttf';
+                const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
 
-                pdfDoc.registerFontkit(fontkit)
-                const customFont = await pdfDoc.embedFont(fontBytes)
+                pdfDoc.registerFontkit(fontkit);
+                const customFont = await pdfDoc.embedFont(fontBytes);
 
-                const pages = pdfDoc.getPages()
-                const modifyPage = pages[1]
-                const { width, height } = modifyPage.getSize()
-                console.log(width, height);
+                const pages = pdfDoc.getPages();
+                const modifyPage = pages[1]; // config
+                const { width, height } = modifyPage.getSize();
 
                 modifyPage.drawText(studentDetail.titleNameThai+studentDetail.studNameThai+" "+studentDetail.studSnameThai, {
                     x: 237.56,
@@ -63,16 +66,18 @@ function FormIdPage() {
                     size: 15,
                     font: customFont,
                     color: rgb(0, 0, 0),
-                })
+                }); //config
 
                 const pdfBytes = await pdfDoc.save()
                 const blob = new Blob([pdfBytes], { type: "application/pdf" });
-                const downloadURL = URL.createObjectURL(blob);
-                const link = document.createElement("a");
-                link.href = downloadURL;
-                link.download = "modified_pdf.pdf";
-                link.click();
-                URL.revokeObjectURL(url);
+                const modifiedPdfUrl = URL.createObjectURL(blob);
+                setPdfUrl(modifiedPdfUrl);
+                setOpenModal(true);
+                // const link = document.createElement("a");
+                // link.href = modifiedPdfUrl;
+                // link.download = "modified_pdf.pdf";
+                // link.click();
+                // URL.revokeObjectURL(url);
             } catch (error) {
                 console.log(error);
             }
@@ -104,7 +109,9 @@ function FormIdPage() {
                     >
                         ดาวน์โหลดฟอร์ม
                     </button>
+                    <PreviewModal pdfUrl={pdfUrl} openModal={openModal} setOpenModal={setOpenModal} />
                 </div>
+                <iframe title="pdfViewer" src={pdfUrl} width="100%" height="500px" frameBorder="0"></iframe>
             </div>
         )
     }
