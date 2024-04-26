@@ -67,7 +67,7 @@ function FormIdPage() {
       const pages = pdfDoc.getPages();
       const modifyPage = pages[form.pageModified]; // config
 
-      form.modifiedConfig.map((config: any) => {
+      form.modifiedConfig?.map((config: any) => {
         if (config.type == "drawText") {
           modifyPage.drawText(eval(config.data), {
             x: config.posX,
@@ -178,14 +178,13 @@ function FormIdPage() {
       <div className="h-screen background-image flex flex-col justify-center items-center space-y-4 pt-20">
         <h1 className="pl-4 font-bold text-3xl">{form?.name}</h1>
         {form?.picDetailURL && form.picDetailURL.length > 0 && (
-          <div className="size-6/12 flex justify-center items-center">
-            <Carousel style={{ width: "100%", height: "100%" }}>
+          <div className="size-[50vh] flex justify-center items-center">
+            <Carousel className="h-screen" indicators={false}>
               {form.picDetailURL.map((url, index) => (
                 <img
                   key={index}
                   src={url}
                   alt={`${index + 1}`}
-                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
                 />
               ))}
             </Carousel>
