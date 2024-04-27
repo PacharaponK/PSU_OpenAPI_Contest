@@ -36,8 +36,8 @@ function Profile() {
     <div>
       <div className="flex flex-col justify-center items-center min-h-screen background-image">
         <Navbar />
-        <div className="flex flex-col justify-center items-center w-7/12 my-24 bg-white hover:border-[#95c0f8] border-[#ceddf0] border-4 p-10 rounded-3xl">
-          <h1 className="text-3xl font-bold mb-4">ข้อมูลส่วนตัว</h1>
+      <div className="flex flex-col justify-center items-center w-7/12 bg-white border-[#ceddf0] hover:border-[#6ca4ee] border-4 p-10 rounded-3xl">
+        <h1 className="text-3xl font-bold mb-6">ข้อมูลส่วนตัว</h1>
           <div className="flex flex-row">
             <div className="mr-14">
               {studentImage && studentImage.pictureBase64 && (
