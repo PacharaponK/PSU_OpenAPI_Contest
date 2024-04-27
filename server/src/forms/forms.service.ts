@@ -24,6 +24,7 @@ export class FormsService {
   async findOne(id: number) {
     const specificForm = await this.formRepository.findOne({
       where: { id: id },
+      relations: ["category"],
     });
     return specificForm;
   }

@@ -7,6 +7,8 @@ import { useAuth } from "react-oidc-context";
 import axios from "axios";
 import conf from "@/conf/main";
 import { Category } from "@/modules/category";
+import MultipleSwiper from "@/components/MultipleSlider";
+import Image from "next/image";
 
 export function Landing() {
     return (
@@ -26,7 +28,7 @@ export function Landing() {
                         ไปกันเลย !!
                     </button>
                 </div>
-                <Carousel />
+                <Image src="/form_animation.gif" width={350} height={350} alt="..." />
             </div>
         </div>
     );
@@ -50,6 +52,10 @@ function HomePage() {
                 <Navbar />
             </div>
             {Landing()}
+            <div className="p-5 bg-blue-200">
+                <h1 className="text-3xl font-bold text-center">ฟอร์มเเนะนำ</h1>
+                <MultipleSwiper />
+            </div>
             <div className="flex bg-white h-full lg:px-10 lg:pb-10 items-start">
                 <div className="flex flex-col">
                     {(categoryWithForms) ?
@@ -57,7 +63,7 @@ function HomePage() {
                             <div className="space-y-7">
                                 <div className="pt-10 space-x-3 flex flex-row justify-between">
                                     <div className="flex flex-row space-x-3">
-                                    <div className="bg-[#2372b5] w-[7vw] rounded-full max-lg:hidden"></div>
+                                        <div className="bg-[#2372b5] w-[7vw] rounded-full max-lg:hidden"></div>
                                         <svg
                                             width="32"
                                             height="32"
@@ -103,7 +109,6 @@ function HomePage() {
                                             </div>
                                         </div>
                                     </>)}
-
                             </div>
                         </>)
                         : <></>}

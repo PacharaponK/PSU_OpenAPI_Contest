@@ -6,6 +6,11 @@ export const SingleFormScheme = z.object({
     detail: z.string(),
     picDetailURL: z.array(z.string()),
     pdfURL: z.string(),
+    category: z.object({
+        id: z.number(),
+        name: z.string(),
+        criterion: z.string(),
+    })
 })
 
 export type SingleForm = z.infer<typeof SingleFormScheme>
