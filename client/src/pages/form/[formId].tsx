@@ -58,14 +58,14 @@ function FormIdPage() {
 
       const pdfDoc = await PDFDocument.load(existingPdfBytes);
       const fontUrl =
-        "https://raw.githubusercontent.com/PacharaponK/PSU_OpenAPI_Contest/main/uploads/THSarabunNew.ttf";
+        "https://script-app.github.io/font/THSarabunNew.ttf";
       const fontBytes = await fetch(fontUrl).then((res) => res.arrayBuffer());
 
       pdfDoc.registerFontkit(fontkit);
       const customFont = await pdfDoc.embedFont(fontBytes);
 
       const pages = pdfDoc.getPages();
-      const modifyPage = pages[form.pageModified]; // config
+      const modifyPage = pages[form.modifiedPage]; // config
 
       form.modifiedConfig?.map((config: any) => {
         if (config.type == "drawText") {
@@ -101,58 +101,6 @@ function FormIdPage() {
         posX += 15.96; //config
       }
 
-      // modifyPage.drawCircle({
-      //     x: 167.56,
-      //     y: 515.96,
-      //     size: 15,
-      //     opacity: 0,
-      //     borderOpacity: 1,
-      //     borderColor: rgb(0, 0, 0),
-      // })
-      // modifyPage.drawText(studentDetail.studNameThai + " " + studentDetail.studSnameThai, {
-      //     x: 237.56,
-      //     y: 515.96,
-      //     size: 15,
-      //     font: customFont,
-      //     color: rgb(0, 0, 0),
-      // }); //config
-
-      // //91.25, 454.375
-
-      // modifyPage.drawText(studentDetail.deptNameThai, {
-      //     x: 91.25,
-      //     y: 460.375,
-      //     size: 15,
-      //     font: customFont,
-      //     color: rgb(0, 0, 0),
-      // }); //config
-
-      // modifyPage.drawText(studentDetail.majorNameThai, {
-      //     x: 280.5,
-      //     y: 460.375,
-      //     size: 15,
-      //     font: customFont,
-      //     color: rgb(0, 0, 0),
-      // }); //config
-
-      // modifyPage.drawText(studentDetail.yearStatus, {
-      //     x: 463,
-      //     y: 460.375,
-      //     size: 15,
-      //     font: customFont,
-      //     color: rgb(0, 0, 0),
-      // }); //config
-
-      // //411.25, 188.125
-
-      // modifyPage.drawText(studentDetail.phone, {
-      //     x: 390.25,
-      //     y: 230.125,
-      //     size: 15,
-      //     font: customFont,
-      //     color: rgb(0, 0, 0),
-      // }); //config
-
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes], { type: "application/pdf" });
       const modifiedPdfUrl = URL.createObjectURL(blob);
@@ -172,6 +120,9 @@ function FormIdPage() {
     fectStudentDetail();
   }, [router.isReady, auth.user?.access_token]);
 
+  console.log(studentDetail);
+  
+
   return (
     <div>
       <Navbar />
@@ -179,7 +130,7 @@ function FormIdPage() {
         <h1 className="pl-4 font-bold text-3xl">{form?.name}</h1>
         {form?.picDetailURL && form.picDetailURL.length > 0 && (
           <div className="size-[50vh] flex justify-center items-center">
-            <Carousel className="h-screen" indicators={false}>
+            <Carousel className="h-1/2" indicators={false}>
               {form.picDetailURL.map((url, index) => (
                 <img
                   key={index}
@@ -210,13 +161,6 @@ function FormIdPage() {
           setOpenModal={setOpenModal}
         />
       </div>
-      {/* <iframe
-        title="pdfViewer"
-        src={pdfUrl}
-        width="100%"
-        height="500px"
-        frameBorder="0"
-      ></iframe> */}
       <div>
         <Footer />
       </div>
