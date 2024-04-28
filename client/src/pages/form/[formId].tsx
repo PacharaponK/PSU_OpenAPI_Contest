@@ -10,8 +10,9 @@ import { useAuth } from "react-oidc-context";
 import { Route } from "@/modules/routes";
 import PreviewModal from "@/components/PreviewModal";
 import Footer from "@/components/Footer";
-import { Carousel } from "flowbite-react";
 import Stepper from "@/components/Stepper";
+import { Carousel } from "flowbite-react";
+import HomeCarousel from "@/components/Carousel";
 
 function FormIdPage() {
   const router = useRouter();
@@ -119,6 +120,8 @@ function FormIdPage() {
   }, [router.isReady, auth.user?.access_token]);
 
   console.log(studentDetail);
+  console.log(form?.picDetailURL);
+
 
 
   return (
@@ -128,6 +131,7 @@ function FormIdPage() {
         <div className="h-screen background-image flex flex-col justify-center items-center">
           {/* <div className="flex p-5 bg-white w-3/4 mb-3 mt-8 rounded-3xl border-[#3f66ff] border-[3px] bg-opacity-70">
           </div> */}
+
           <div className="flex flex-col justify-start w-3/4 p-5 bg-white rounded-3xl shadow-2xl shadow-[#6ca4ee]">
             <h1 className="pl-4 font-bold text-3xl text-center mx-auto mb-1 pt-3">
               {form?.name}
@@ -174,11 +178,10 @@ function FormIdPage() {
 
         :
 
-        <div className="h-screen background-image flex flex-col justify-center items-center">
+        <div className="h-auto background-image flex flex-col justify-center items-center">
           {/* <div className="flex p-5 bg-white w-3/4 mb-3 mt-8 rounded-3xl border-[#3f66ff] border-[3px] bg-opacity-70">
           </div> */}
-          <div className="flex flex-col justify-start w-3/4 p-5 bg-white rounded-3xl shadow-2xl shadow-[#6ca4ee]">
-
+          <div className="flex flex-col justify-start w-3/4 p-5 mb-10 mt-32 bg-white rounded-3xl shadow-2xl shadow-[#6ca4ee]">
             <h1 className="pl-4 font-bold text-3xl text-center mx-auto mb-1 pt-3">
               {form?.name}
             </h1>
@@ -190,16 +193,23 @@ function FormIdPage() {
                 {form?.category.name}
               </p>
             </div>
-            <Carousel className="h-1/2" indicators={false}>
-              {form?.picDetailURL.map((url, index) => (
-                <img
-                  key={index}
-                  src={url}
-                  alt={`${index + 1}`}
-                />
-              ))}
-            </Carousel>
 
+
+            {/* <div className="flex justify-center">
+              <img className='w-1/2' src={form?.picDetailURL[0]} alt="" />
+            </div> */}
+            
+            <div className="lg:w-1/2 h-56 sm:h-64 mb-5 shadow-lg shadow-[#c3c6ca] xl:h-80 2xl:h-[30rem] flex mx-auto justify-center ">
+              <Carousel>
+                {form?.picDetailURL.map((url, index) => (
+                  <img
+                    key={index}
+                    src={url}
+                    alt={`${index + 1}`}
+                  />
+                ))}
+              </Carousel>
+            </div>
             <Stepper />
             <PreviewModal
               pdfUrl={pdfUrl}
