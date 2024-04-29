@@ -6,7 +6,6 @@ function preview() {
     return (
         <div className='h-[50vh]'>
             <SingleSlider/>
-
         </div>
     )
 }

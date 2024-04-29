@@ -11,7 +11,7 @@ export class Form {
     name: string;
 
     @Expose({ groups: ['detail']})
-    @Column({nullable: true})
+    @Column("simple-array", {nullable: true})
     detail: string;
 
     @Expose({ groups: ['detail']})

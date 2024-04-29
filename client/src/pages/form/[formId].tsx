@@ -144,7 +144,7 @@ function FormIdPage() {
                 {form?.category.name}
               </p>
             </div>
-            <Stepper />
+            <Stepper formDetail={form.detail} />
             <PreviewModal
               pdfUrl={pdfUrl}
               openModal={openModal}
@@ -199,7 +199,7 @@ function FormIdPage() {
               <img className='w-1/2' src={form?.picDetailURL[0]} alt="" />
             </div> */}
             
-            <div className="lg:w-1/2 h-56 sm:h-64 mb-5 shadow-lg shadow-[#c3c6ca] xl:h-80 2xl:h-[30rem] flex mx-auto justify-center ">
+            <div className="lg:w-1/2 h-56 sm:h-64 mb-10 shadow-lg shadow-[#c3c6ca] xl:h-80 2xl:h-[30rem] flex mx-auto justify-center ">
               <Carousel>
                 {form?.picDetailURL.map((url, index) => (
                   <img
@@ -210,7 +210,7 @@ function FormIdPage() {
                 ))}
               </Carousel>
             </div>
-            <Stepper />
+            <Stepper formDetail={form?.detail} />
             <PreviewModal
               pdfUrl={pdfUrl}
               openModal={openModal}
