@@ -13,13 +13,15 @@ import Footer from "@/components/Footer";
 import Stepper from "@/components/Stepper";
 import { Carousel } from "flowbite-react";
 import HomeCarousel from "@/components/Carousel";
+import { useStudentContext } from "@/contexts/StudentContext";
 
 function FormIdPage() {
   const router = useRouter();
   const auth = useAuth();
   const formId = router.query.formId;
   const [form, setForm] = useState<SingleForm>();
-  const [studentDetail, setStudentDetail] = useState<any>(null);
+  const { studentDetail, studentImage, fetchStudentDetail } =
+    useStudentContext();
   const [pdfUrl, setPdfUrl] = useState<string>();
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -32,21 +34,8 @@ function FormIdPage() {
     }
   };
 
-  const fectStudentDetail = async () => {
-    try {
-      const result = await axios.get(
-        `${conf.urlPrefix}/psu-api/studentDetail`,
-        {
-          headers: {
-            token: auth.user?.access_token,
-          },
-        }
-      );
-      setStudentDetail(result.data.data[0]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  console.log(studentDetail);
+
 
   async function modifyPdf(form: any) {
     try {
@@ -116,13 +105,7 @@ function FormIdPage() {
   }
   useEffect(() => {
     fetchForm();
-    fectStudentDetail();
-  }, [router.isReady, auth.user?.access_token]);
-
-  console.log(studentDetail);
-  console.log(form?.picDetailURL);
-
-
+  }, [router.isReady]);
 
   return (
     <div>
@@ -195,7 +178,7 @@ function FormIdPage() {
             {/* <div className="flex justify-center">
               <img className='w-1/2' src={form?.picDetailURL[0]} alt="" />
             </div> */}
-            
+
             <div className="lg:w-1/2 h-56 sm:h-64 mb-10 shadow-lg shadow-[#c3c6ca] xl:h-80 2xl:h-[30rem] flex mx-auto justify-center ">
               <Carousel>
                 {form?.picDetailURL.map((url, index) => (

@@ -25,8 +25,10 @@ export class PsuApiService {
       );
 
       studentDetail = response.data.data[0];
+      console.log("🚀 ~ PsuApiService ~ getStudentDetail ~ studentDetail:", studentDetail)
       const findStudent = await this.usersService.findByStudentId(studentDetail?.studentId);
       console.log(findStudent);
+      return studentDetail;
     } catch (error) {
       console.error("Error fetching student detail:", error);
     }

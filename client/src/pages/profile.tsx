@@ -1,4 +1,3 @@
-import axios from "axios";
 import Navbar from "../components/Navbar";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -16,11 +15,6 @@ function Profile() {
   console.log("token:", auth.user?.access_token);
 
   const [showDetails, setShowDetails] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (auth.isAuthenticated) {
-    }
-  }, [auth.isAuthenticated, auth.user, fetchStudentDetail]);
 
   console.log(studentDetail);
   console.log(studentImage);
