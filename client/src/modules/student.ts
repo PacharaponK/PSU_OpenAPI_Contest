@@ -64,6 +64,11 @@ const StudentDetailSchema = z.object({
   minorNameThai: z.string().nullable(),
   minorNameEng: z.string().nullable(),
   majorMinorNameThai: z.string(),
+  phone: z.string().nullable(),
+  email: z.string().nullable(),
+  dorm: z.string().nullable(),
+  address: z.string().nullable(),
+  scholarship: z.string().nullable()
 });
 
 const StudentImageSchema = z.object({
