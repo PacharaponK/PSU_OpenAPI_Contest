@@ -25,9 +25,25 @@ export class PsuApiService {
       );
 
       studentDetail = response.data.data[0];
-      console.log("🚀 ~ PsuApiService ~ getStudentDetail ~ studentDetail:", studentDetail)
       const findStudent = await this.usersService.findByStudentId(studentDetail?.studentId);
-      console.log(findStudent);
+      if (findStudent) {
+        const selectedProperties = {
+          ...studentDetail,
+          dorm: findStudent.dorm,
+          address: findStudent.address,
+          scholarship: findStudent.scholarship,
+        };
+      
+        return selectedProperties;
+      }
+      if (!findStudent) {
+        await this.usersService.create({
+          studentId: studentDetail?.studentId,
+          dorm: studentDetail?.dorm,
+          address: studentDetail?.address,
+          scholarship: studentDetail?.scholarship,
+        });
+      } 
       return studentDetail;
     } catch (error) {
       console.error("Error fetching student detail:", error);

@@ -12,26 +12,18 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) { }
   async create(createUserDto: CreateUserDto) {
+    console.log(createUserDto);
+    
     const createUser = this.userRepository.create(createUserDto);
     return await this.userRepository.save(createUser);
   }
 
-  async findAll(studentId?: string) {
-    if (studentId !== null) {
-      const findByStudent = await this.userRepository.findOne({
-        where: { studentId: studentId }
-      });
-      return findByStudent;
-    }
-    else {
+  async findAll() {
       const listUsers = await this.userRepository.find();
       return listUsers;
-    }
   }
 
   async findByStudentId(studentId: string) {
-    console.log(studentId);
-    
     const findByStudent = await this.userRepository.findOne({
       where: { studentId: studentId }
     });

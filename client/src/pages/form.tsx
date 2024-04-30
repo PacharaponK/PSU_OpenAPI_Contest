@@ -63,7 +63,7 @@ function HomePage() {
                             <div className="space-y-7">
                                 <div className="pt-10 space-x-3 flex flex-row justify-between">
                                     <div className="flex flex-row space-x-3">
-                                        <div className="bg-[#2372b5] w-[7vw] rounded-full max-lg:hidden"></div>
+                                        <div className="bg-[#2372b5] w-[6vw] rounded-full max-lg:hidden"></div>
                                         <svg
                                             width="32"
                                             height="32"
@@ -80,7 +80,7 @@ function HomePage() {
                                         </svg>
                                         <span className="text-2xl font-semibold">{category.name}</span>
                                     </div>
-                                    <div className="bg-[#2372b5] w-[65vw] rounded-full right"></div>
+                                    <div className="bg-[#2372b5] w-[63vw] rounded-full right"></div>
                                 </div>
                                 {category.forms.map((form) =>
                                     <>

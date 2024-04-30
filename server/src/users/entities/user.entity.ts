@@ -1,10 +1,13 @@
+import { Expose } from "class-transformer";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class User {
+    @Expose({ groups: ['detail']})
     @PrimaryColumn()
     id: number;
 
+    @Expose({ groups: ['detail']})
     @Column({ nullable: true })
     studentId: string;
 
