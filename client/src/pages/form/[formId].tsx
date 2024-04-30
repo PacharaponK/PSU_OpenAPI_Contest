@@ -129,9 +129,6 @@ function FormIdPage() {
       <Navbar />
       {form?.picDetailURL.length == 0 ?
         <div className="h-screen background-image flex flex-col justify-center items-center">
-          {/* <div className="flex p-5 bg-white w-3/4 mb-3 mt-8 rounded-3xl border-[#3f66ff] border-[3px] bg-opacity-70">
-          </div> */}
-
           <div className="flex flex-col justify-start w-3/4 p-5 bg-white rounded-3xl shadow-2xl shadow-[#6ca4ee]">
             <h1 className="pl-4 font-bold text-3xl text-center mx-auto mb-1 pt-3">
               {form?.name}
