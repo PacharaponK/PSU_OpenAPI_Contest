@@ -77,20 +77,6 @@ const StudentImageSchema = z.object({
   pictureBase64: z.string(),
 });
 
-// export const StudentContextTypeSchema = z.object({
-//   studentDetail: StudentDetailSchema.nullable(),
-//   studentImage: StudentImageSchema.nullable(),
-//   setStudentDetail: z.function(
-//     z.tuple([StudentDetailSchema.nullable()]),
-//     z.undefined()
-//   ),
-//   setStudentImage: z.function(
-//     z.tuple([StudentImageSchema.nullable()]),
-//     z.undefined()
-//   ),
-//   fetchStudentDetail: z.function(z.tuple([]), z.undefined()),
-// });
-
 // export type StudentContextType = z.infer<typeof StudentContextTypeSchema>;
 export type studentImage = z.infer<typeof StudentImageSchema>;
 export type studentDetail = z.infer<typeof StudentDetailSchema>;

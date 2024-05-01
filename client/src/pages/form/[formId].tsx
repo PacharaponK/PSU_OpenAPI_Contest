@@ -222,47 +222,6 @@ function FormIdPage() {
             </div>
           </div>
         </div>
-
-        // <> 
-        // <div className="h-screen background-image bg-white flex flex-col justify-center items-center space-y-4 pt-32">
-        //   <h1 className="pl-4 font-bold text-3xl">{form?.name}</h1>
-        // {form?.picDetailURL && form.picDetailURL.length > 0 && (
-        //   <div className="size-[50vh] flex justify-center items-center">
-        // <Carousel className="h-1/2" indicators={false}>
-        // {form.picDetailURL.map((url, index) => (
-        //       <img
-        //       key={index}
-        //       src={url}
-        //       alt={`${index + 1}`}
-        //       />
-        //       ))}
-        //       </Carousel>
-        //       </div>
-        //     )}
-        //   <div className="">
-        //     <Stepper />
-        //   </div>
-        //   <div className="flex justify-center items-center w-1/2 bg-cyan-100 p-5 rounded-xl">
-        //   <div className="text-left">
-        //     ขั้นตอนดำเนินการ
-        //     <p className="text-center text-xl pb-4"></p>
-        //     <span className="whitespace-pre-line">{form?.detail}</span>
-        //   </div>
-        // </div>
-        //   <button
-        //     onClick={() => modifyPdf(form)}
-        //     type="button"
-        //     className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-        //   >
-        //     ดาวน์โหลดฟอร์ม
-        //   </button>
-        //   <PreviewModal
-        //     pdfUrl={pdfUrl}
-        //     openModal={openModal}
-        //     setOpenModal={setOpenModal}
-        //   />
-        // </div>
-        // </>
       }
 
       <div>
