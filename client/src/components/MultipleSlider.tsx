@@ -25,22 +25,34 @@ export default function MultipleSwiper() {
                     autoplay={{
                         delay: 2500,
                     }}
-                    slidesPerView={4}
+                    autoHeight={true}
                     spaceBetween={10}
-                    freeMode={true}
                     centeredSlides={true}
                     pagination={{
                         clickable: true,
                     }}
-                    modules={[Autoplay, FreeMode, Pagination]}
-                    className="mySwiper lg:w-10/12 w-screen rounded-xl"
+                    breakpoints={{
+                        // when window width is >= 640px
+                        640: {
+                            width: 640,
+                            slidesPerView: 1,
+                        },
+                        // when window width is >= 768px
+                        768: {
+                            width: 768,
+                            slidesPerView: 2,
+                        },
+                    }}
+                    centeredSlidesBounds={true}
+                    modules={[Autoplay, Pagination]}
+                    className="mySwiper w-11/12 lg:w-10/12 rounded-xl"
                 >
                     <div className='flex justify-center items-center align-middle'>
                         <SwiperSlide>
                             <Link href={''}>
-                            <div className='lg:pt-3'>
-                                <img src={"/recommendation.jpg"} alt="..." />
-                            </div>
+                                <div className='lg:pt-3'>
+                                    <img src={"/recommendation.jpg"} alt="..." />
+                                </div>
                             </Link>
                         </SwiperSlide>
                         <SwiperSlide>
