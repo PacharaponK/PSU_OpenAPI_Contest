@@ -55,93 +55,27 @@ function FormIdPage() {
       const pages = pdfDoc.getPages();
       const modifyPage = pages[form.pageModified ?? 0]; // config
 
-      const unicodeText = `${studentDetail.studNameThai} ${studentDetail.studSnameThai}`;
-      // modifyPage.drawText(unicodeText, {
-      //   x: 180,
-      //   y: 577,
-      //   size: 15,
-      //   font: customFont,
-      //   color: rgb(0, 0, 0)
-      // });
-
-      // modifyPage.drawText(studentDetail.yearStatus, {
-      //   x: 465,
-      //   y: 261,
-      //   size: 12,
-      //   font: customFont,
-      //   color: rgb(0, 0, 0)
-      // });
-
-      // modifyPage.drawText(studentDetail.phone, {
-      //   x: 450,
-      //   y: 417,
-      //   size: 15,
-      //   font: customFont,
-      //   color: rgb(0, 0, 0)
-      // });
-
-      // modifyPage.drawText(studentDetail.studentId, {
-      //   x: 457,
-      //   y: 577,
-      //   size: 15,
-      //   font: customFont,
-      //   color: rgb(0, 0, 0)
-      // });
-
-      const modifyPages = pages[form.pageModified ?? 1];
-      modifyPages.drawText(unicodeText, {
-        x: 225,
-        y: 585,
-        size: 15,
-        font: customFont,
-        color: rgb(0, 0, 0)
+      form.modifiedConfig?.map((config: any) => {
+        if (config?.type == "drawText") {
+          modifyPage.drawText(eval(config?.data), {
+            x: config.posX,
+            y: config.posY,
+            size: 15,
+            font: customFont,
+            color: rgb(0, 0, 0),
+          });
+        }
+        if (config?.type == "drawCircle") {
+          modifyPage.drawCircle({
+            x: config.posX,
+            y: config.posY,
+            size: 15,
+            opacity: 0,
+            borderOpacity: 1,
+            borderColor: rgb(0, 0, 0),
+          });
+        }
       });
-
-      modifyPages.drawText(studentDetail.studentId, {
-        x: 480,
-        y: 585,
-        size: 15,
-        font: customFont,
-        color: rgb(0, 0, 0)
-      });
-
-      // modifyPages.drawText(studentDetail.yearStatus, {
-      //   x: 473,
-      //   y: 461,
-      //   size: 15,
-      //   font: customFont,
-      //   color: rgb(0, 0, 0)
-      // });
-
-      modifyPages.drawText(studentDetail.phone, {
-        x: 480,
-        y: 554,
-        size: 15,
-        font: customFont,
-        color: rgb(0, 0, 0)
-      });
-
-      // form.modifiedConfig?.map((config: any) => {
-      //   if (config?.type == "drawText") {
-      //     modifyPage.drawText(eval(config?.data), {
-      //       x: config.posX,
-      //       y: config.posY,
-      //       size: 15,
-      //       font: customFont,
-      //       color: rgb(0, 0, 0),
-      //     });
-      //   }
-      //   if (config?.type == "drawCircle") {
-      //     modifyPage.drawCircle({
-      //       x: config.posX,
-      //       y: config.posY,
-      //       size: 15,
-      //       opacity: 0,
-      //       borderOpacity: 1,
-      //       borderColor: rgb(0, 0, 0),
-      //     });
-      //   }
-      // });
 
       // let posX = 384.56;
       // for (let i = 0; i < studentDetail.studentId.length; i++) {
