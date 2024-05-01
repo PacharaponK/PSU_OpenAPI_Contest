@@ -57,13 +57,13 @@ const DropdownPF: React.FC<DropdownPFProps> = ({ type, studentId } ) => {
   );
   const [other, setOther] = useState<string>("");
 
-  const handleSubmit = (e: any, type:string) => {
+  const handleSubmit = (e: any, type:string, other?:string) => {
     if (type == "scholar") {
       if (other == '') {
         updateProfile(e.label, "scholarship");
       }
       else {
-        updateProfile(e, "scholarship");
+        updateProfile(other, "scholarship");
       }
     }
 
@@ -151,7 +151,7 @@ const DropdownPF: React.FC<DropdownPFProps> = ({ type, studentId } ) => {
           </div>
         )}
         <button
-          onClick={() => handleSubmit(scholarSelectOption, "scholar")}
+          onClick={() => handleSubmit(scholarSelectOption, "scholar", other)}
           className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           ยืนยัน
