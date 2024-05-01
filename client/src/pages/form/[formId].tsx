@@ -116,13 +116,13 @@ function FormIdPage() {
         color: rgb(0, 0, 0)
       });
 
-      modifyPages.drawText(studentDetail.yearStatus, {
-        x: 473,
-        y: 461,
-        size: 15,
-        font: customFont,
-        color: rgb(0, 0, 0)
-      });
+      // modifyPages.drawText(studentDetail.yearStatus, {
+      //   x: 473,
+      //   y: 461,
+      //   size: 15,
+      //   font: customFont,
+      //   color: rgb(0, 0, 0)
+      // });
 
       modifyPages.drawText(studentDetail.phone, {
         x: 480,
