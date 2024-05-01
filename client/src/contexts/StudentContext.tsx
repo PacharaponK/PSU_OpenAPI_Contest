@@ -47,7 +47,7 @@ export const StudentProvider: React.FC<{ children: ReactNode }> = ({
           },
         }
       );
-      setStudentDetail(detailResult.data.data[0]);
+      setStudentDetail(detailResult.data);
 
       const imageResult = await axios.get(
         `${conf.urlPrefix}/psu-api/studentImage`,
