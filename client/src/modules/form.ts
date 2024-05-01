@@ -5,6 +5,7 @@ export const FormScheme = z.array(
         id: z.number(),
         name: z.string(),
         detail: z.array(z.string()),
+        updateDate: z.string(),
         picDetailURL: z.array(z.string()),
         pdfURL: z.string(),
 }))

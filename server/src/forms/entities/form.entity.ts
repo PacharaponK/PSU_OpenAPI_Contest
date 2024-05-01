@@ -21,6 +21,9 @@ export class Form {
     @Column()
     pdfURL: string;
 
+    @Column({ nullable: true})
+    updateDate: string;
+
     @Expose({ groups: ['detail']})
     @Column({nullable: true})
     pageModified: number;

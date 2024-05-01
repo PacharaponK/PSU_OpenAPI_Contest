@@ -64,16 +64,19 @@ export class FormsController {
     return res.sendFile(filename, { root: './uploads' })
   }
 
-  @SerializeOptions({groups: ['detail']})
+  @SerializeOptions({ groups: ['detail'] })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.formsService.findOne(+id);
   }
 
-  @SerializeOptions({groups: ['detail']})
+  @SerializeOptions({ groups: ['detail'] })
   @Put(':id')
   update(@Param('id') id: string, @Body() updateFormDto: UpdateFormDto) {
-    return this.formsService.update(+id, updateFormDto);
+    return this.formsService.update(+id, {
+      ...updateFormDto,
+      updateDate: new Date().toISOString()
+    });
   }
 
   @Delete(':id')
