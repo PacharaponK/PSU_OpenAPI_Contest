@@ -15,8 +15,6 @@ function Profile() {
   const app = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [option, setOption] = useState<string>();
-  console.log("token:", auth.user?.access_token);
-
   
   const [showDetails, setShowDetails] = useState<boolean>(false);
   
@@ -99,7 +97,7 @@ function Profile() {
                   >
                     {showDetails ? "ซ่อนข้อมูล" : "ดูข้อมูลเพิ่มเติม"}
                   </button>
-                  <ModalPF openModal={openModal} setOpenModal={setOpenModal} option={option}/>
+                  <ModalPF openModal={openModal} setOpenModal={setOpenModal} option={option} studentId={studentDetail?.refId} />
                   {/* <h1>
                     ประเภททุนการศึกษา : <DropdownPF />
                   </h1>

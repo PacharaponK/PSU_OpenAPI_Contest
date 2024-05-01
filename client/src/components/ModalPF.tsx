@@ -12,7 +12,7 @@ export default function ModalPF(props: any) {
                 </Modal.Header>
                 <Modal.Body className="p-8">
                     <div className="flex justify-center items-center">
-                        <DropdownPF type={props.option}/>
+                        <DropdownPF type={props.option} studentId={props.studentId}/>
                     </div>
                 </Modal.Body>
             </Modal>

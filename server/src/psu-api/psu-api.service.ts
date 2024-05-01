@@ -29,6 +29,7 @@ export class PsuApiService {
       if (findStudent) {
         const selectedProperties = {
           ...studentDetail,
+          refId: findStudent.id,
           dorm: findStudent.dorm,
           address: findStudent.address,
           scholarship: findStudent.scholarship,
