@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const FormScheme = z.array(
+export const FormWithCategoryScheme = z.array(
     z.object({
         id: z.number(),
         name: z.string(),
@@ -9,6 +9,11 @@ export const FormScheme = z.array(
         updateDate: z.string(),
         picDetailURL: z.array(z.string()),
         pdfURL: z.string(),
+        category: z.object({
+            id: z.number(),
+            name: z.string(),
+            criterion: z.string(),
+        })
 }))
 
-export type Form = z.infer<typeof FormScheme>
+export type FormWithCategory = z.infer<typeof FormWithCategoryScheme>

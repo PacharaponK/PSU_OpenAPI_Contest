@@ -26,7 +26,23 @@ export class FormsService {
       where: { id: id },
       relations: ["category"],
     });
+    await this.formRepository.update(id,{
+      totalView: specificForm.totalView+1
+    })
     return specificForm;
+  }
+
+  async findByMostView(options:any) {
+    const findMostView = await this.formRepository
+    .createQueryBuilder('form')
+    .leftJoinAndSelect('form.category', 'category')
+    .where('category.criterion = :deptName', {deptName: options?.dept})
+    .orWhere('category.criterion = :scholarName', {scholarName: options?.scholar})
+    .orWhere('category.criterion IS NULL')
+    .orderBy('form.totalView', 'DESC')
+    .limit(4)
+    .getMany();
+    return findMostView;
   }
 
   async findByName(name: string) {

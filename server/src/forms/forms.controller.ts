@@ -64,6 +64,11 @@ export class FormsController {
     return res.sendFile(filename, { root: './uploads' })
   }
 
+  @Put('mostView')
+  findByMostView(@Body() options:string[]) {
+    return this.formsService.findByMostView(options);
+  }
+
   @SerializeOptions({ groups: ['detail'] })
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -3,6 +3,7 @@ import { z } from "zod";
 export const SingleFormScheme = z.object({
     id: z.number(),
     name: z.string(),
+    totalViews: z.number(),
     detail: z.array(z.string()),
     picDetailURL: z.array(z.string()),
     updateDate: z.string(),

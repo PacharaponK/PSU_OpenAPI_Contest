@@ -10,6 +10,9 @@ export class Form {
     @Column()
     name: string;
 
+    @Column({default: 0})
+    totalView: number;
+
     @Expose({ groups: ['detail']})
     @Column("simple-array", {nullable: true})
     detail: string;

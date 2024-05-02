@@ -4,6 +4,7 @@ export const FormType = z.array(
     z.object({
         id: z.number(),
         name: z.string(),
+        totalViews: z.number(),
         detail: z.array(z.string()),
         picDetailURL: z.array(z.string()),
         pdfURL: z.string(),
