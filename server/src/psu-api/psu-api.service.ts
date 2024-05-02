@@ -31,6 +31,7 @@ export class PsuApiService {
           ...studentDetail,
           refId: findStudent.id,
           dorm: findStudent.dorm,
+          dormDetail: findStudent.dormDetail,
           address: findStudent.address,
           scholarship: findStudent.scholarship,
         };

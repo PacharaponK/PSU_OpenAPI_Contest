@@ -68,6 +68,7 @@ const StudentDetailSchema = z.object({
   email: z.string().nullable(),
   refId: z.string().nullable(),
   dorm: z.string().nullable(),
+  dormDetail: z.string().nullable(),
   address: z.string().nullable(),
   scholarship: z.string().nullable()
 });

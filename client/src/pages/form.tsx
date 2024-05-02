@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useStudentContext } from "@/contexts/StudentContext";
 import { Form } from "@/modules/form";
 import { FormWithCategory } from "@/modules/formWithCategory";
+import MultipleFormSwiper from "@/components/MultipleFormSlider";
 
 export function Landing() {
     return (
@@ -34,46 +35,6 @@ export function Landing() {
         </div>
     );
 }
-
-interface MostViewFormCardProps {
-    forms: FormWithCategory | undefined;
-}
-
-const MostViewFormCard: React.FC<MostViewFormCardProps> = ({ forms }) => {
-    return (
-        <>
-            <div className="p-1 flex flex-wrap items-center justify-center">
-                {forms?.map(form => (
-                    <div key={form.id} className="p-1 flex flex-wrap items-center justify-center">
-                        <div className="flex-shrink-0 m-6 relative overflow-hidden bg-blue-400 rounded-lg max-w-xs shadow-lg" style={{ width: "250px", height: "300px" }}>
-                            <svg className="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none"
-                                style={{ transform: "scale(1.5)", opacity: "0.1" }}>
-                                <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="white" />
-                                <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="white" />
-                            </svg>
-                            <div className="relative pt-10 px-10 flex items-center justify-center">
-                                <div className="block absolute w-40 h-40 bottom-0 left-0 -mb-24 ml-3"
-                                    style={{ background: "radial-gradient(black, transparent 60%)", transform: "rotate3d(0, 0, 1, 20deg) scale3d(1, 0.6, 1)", opacity: "0.2" }}>
-                                </div>
-                                <img className="relative w-28" src={"/mostViewIcon.png"} alt={form.name} />
-                            </div>
-                            <div className="relative text-white it px-6 pb-6 mt-6">
-                                <span className="block opacity-75 -mb-1">{form.category.name}</span>
-                                <div className="flex justify-between">
-                                    <span className="block font-semibold text-xl">{form.name}</span>
-                                    {/* Assuming price is a property of FormWithCategory */}
-                                    {/* Replace with the correct property name */}
-                                    {/* <span className="block bg-white rounded-full text-orange-500 text-xs font-bold px-3 py-2 leading-none flex items-center">${form.price}</span> */}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-        </>
-    );
-};
 
 type DropdownState = {
     [key: string]: boolean;
@@ -106,7 +67,8 @@ function HomePage() {
             if (studentDetail) {
                 const listForms = await axios.put(`${conf.urlPrefix}/forms/mostView`, {
                     scholar: studentDetail?.scholarship,
-                    dept: studentDetail?.deptNameThai
+                    dept: studentDetail?.deptNameThai,
+                    dormDetail: studentDetail?.dormDetail
                 });
                 setMostViewForms(listForms.data);
             }
@@ -124,17 +86,18 @@ function HomePage() {
             </div>
             {Landing()}
             <div className="">
-                <div className="p-5 ">
+                <div className="pt-8">
                     <h1 className="text-2xl md:text-3xl font-bold text-center">ฟอร์มยอดนิยม</h1>
-                    <MostViewFormCard forms={mostViewForms} />
+                    <MultipleFormSwiper forms={mostViewForms} />
                 </div>
-                <div className="flex bg-white h-full lg:px-10 pb-10 items-start">
+                <div className="flex bg-white h-full lg:px-10 pb-5 items-start">
                     <div className="flex flex-col">
                         {categoryWithForms && categoryWithForms.map((category: any) => (
                             (!studentDetail || (
                                 category.criterion === null ||
                                 category.criterion === studentDetail?.scholarship ||
-                                category.criterion === studentDetail?.deptNameThai
+                                category.criterion === studentDetail?.deptNameThai ||
+                                category.criterion === studentDetail?.dormDetail
                             )) && (
                                 <div key={category.id} className="space-y-5">
                                     <div className="pt-10 space-x-3 flex flex-row justify-between">

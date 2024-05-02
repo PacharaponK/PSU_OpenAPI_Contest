@@ -28,27 +28,37 @@ const locationOptions: LocationOption[] = [
 ];
 
 const scholarOptions: LocationOption[] = [
-  { id: 1, label: "กยศ." },
-  { id: 2, label: "อื่นๆ" },
+  { id: 1, label: "ไม่ระบุ" },
+  { id: 2, label: "กยศ." },
+  { id: 3, label: "อื่นๆ" },
+
 ];
 
 
-const DropdownPF: React.FC<DropdownPFProps> = ({ type, studentId } ) => {
+const DropdownPF: React.FC<DropdownPFProps> = ({ type, studentId }) => {
   const app = useRouter();
 
-  const updateProfile = async (data:any, type:string) => {
+  const updateProfile = async (data: any, type: string) => {
     try {
-      const response = await axios.put(`${conf.urlPrefix}/users/${studentId}`, {
-          [type]: data
+      await axios.put(`${conf.urlPrefix}/users/${studentId}`, {
+        [type]: data
       })
-      console.log(response);
-      
-      app.reload();
+      if (type == "dorm" && data != null) {
+        await axios.put(`${conf.urlPrefix}/users/${studentId}`, {
+          dormDetail: "หอใน"
+        })
+      }
+      if (!data) {
+        await axios.put(`${conf.urlPrefix}/users/${studentId}`, {
+          dormDetail: null
+        })
+      }
     } catch (error) {
       console.error(error);
     }
+    app.reload();
   }
-  
+
   const [selectedOption, setSelectedOption] = useState<LocationOption | null>(
     null
   );
@@ -57,39 +67,49 @@ const DropdownPF: React.FC<DropdownPFProps> = ({ type, studentId } ) => {
   );
   const [other, setOther] = useState<string>("");
 
-  const handleSubmit = (e: any, type:string, other?:string) => {
+  const handleSubmit = (e: any, type: string, other?: string) => {
     if (type == "scholar") {
       if (other == '') {
-        updateProfile(e.label, "scholarship");
+        if (e.label == "ไม่ระบุ") {
+          updateProfile(null, "scholarship");
+        }
+        else {
+          updateProfile(e.label, "scholarship");
+        }
       }
       else {
         updateProfile(other, "scholarship");
       }
     }
 
-    if (type == "dorm" && selectedOption?.label != "ไม่ระบุ" ) {
-      updateProfile(e.label, "dorm");
+    if (type == "dorm") {
+      if (selectedOption?.label != "ไม่ระบุ") {
+        updateProfile(e.label, "dorm");
+      }
+      else {
+        updateProfile(null, "dorm");
+      }
     }
 
     if (type == "address") {
       updateProfile(e, "address");
     }
   }
-  
+
   const handleOptionChange = (option: LocationOption | null, e: string) => {
     if (e == "scholar") {
       setScholarSelectOption(option);
     }
-    
+
     if (e == "dorm") {
       setSelectedOption(option)
     }
-    
+
     if (option?.label !== "อื่นๆ") {
       setOther("");
     }
   };
-  
+
   const handleOtherAddressChange = (e: any) => {
     setOther(e);
   };
@@ -170,7 +190,7 @@ const DropdownPF: React.FC<DropdownPFProps> = ({ type, studentId } ) => {
           handleOptionChange(
             locationOptions.find(
               (option) => option.id === Number(e.target.value)
-            ) || null , "dorm"
+            ) || null, "dorm"
           )
         }
         className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"

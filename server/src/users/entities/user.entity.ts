@@ -15,6 +15,9 @@ export class User {
     dorm: string;
 
     @Column({ nullable: true })
+    dormDetail: string;
+
+    @Column({ nullable: true })
     address: string;
 
     @Column({ nullable: true })
