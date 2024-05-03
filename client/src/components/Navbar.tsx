@@ -4,9 +4,7 @@ import { useAuth } from "react-oidc-context";
 import Image from "next/image";
 import { useStudentContext } from "../contexts/StudentContext";
 import Link from "next/link";
-
-export const PSU: string =
-  "https://cdn.discordapp.com/attachments/705005230944813076/1227656307041894472/5.png?ex=66293308&is=6616be08&hm=0fe6e1f656c261047f82ecc38a43c9f240af42f8ba2d8bd27697d111002d2e46&";
+import PSU from "../../public/PSU_Logo.png";
 
 function Navbar() {
   const { studentImage } = useStudentContext();
@@ -24,8 +22,12 @@ function Navbar() {
         <div className="px-4">
           <div className="flex items-center justify-between">
             <div className="flex shrink-0">
-              <Link aria-current="page" className="flex items-center" href="/form">
-                <img className="h-10 w-auto" src={PSU} alt="" />
+              <Link
+                aria-current="page"
+                className="flex items-center"
+                href="/form"
+              >
+                <Image className="h-7 w-auto" src={PSU} alt="" />
                 <p></p>
               </Link>
             </div>
@@ -72,8 +74,12 @@ function Navbar() {
         <div className="px-4">
           <div className="flex items-center justify-between">
             <div className="flex shrink-0">
-              <Link aria-current="page" className="flex items-center" href="/form">
-                <img className="h-10 w-auto" src={PSU} alt="" />
+              <Link
+                aria-current="page"
+                className="flex items-center"
+                href="/form"
+              >
+                <Image className="h-7 w-auto" src={PSU} alt="" />
                 <p></p>
               </Link>
             </div>
