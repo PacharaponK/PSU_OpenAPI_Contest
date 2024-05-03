@@ -12,6 +12,7 @@ export const FormWithCategoryScheme = z.array(
         category: z.object({
             id: z.number(),
             name: z.string(),
+            icon: z.string().nullable(),
             criterion: z.string(),
         })
 }))

@@ -72,12 +72,15 @@ function HomePage() {
                 });
                 setMostViewForms(listForms.data);
             }
+            else {
+                const listForms = await axios.put(`${conf.urlPrefix}/forms/mostViewGuest`, {
+                });
+                setMostViewForms(listForms.data);
+            }
         };
 
         fetchFormsByMostView();
     }, [studentDetail]);
-
-    console.log(mostViewForms);
 
     return (
         <div>

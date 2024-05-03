@@ -26,23 +26,33 @@ export class FormsService {
       where: { id: id },
       relations: ["category"],
     });
-    await this.formRepository.update(id,{
-      totalView: specificForm.totalView+1
+    await this.formRepository.update(id, {
+      totalView: specificForm.totalView + 1
     })
     return specificForm;
   }
 
-  async findByMostView(options:any) {
+  async findByMostView(options: any) {
     const findMostView = await this.formRepository
-    .createQueryBuilder('form')
-    .leftJoinAndSelect('form.category', 'category')
-    .where('category.criterion IS NULL')
-    .orWhere('category.criterion = :deptName', {deptName: options?.dept})
-    .orWhere('category.criterion = :scholarName', {scholarName: options?.scholar})
-    .orWhere('category.criterion = :dormDetail', {dormDetail: options?.dormDetail})
-    .orderBy('form.totalView', 'DESC')
-    .limit(7)
-    .getMany();
+      .createQueryBuilder('form')
+      .leftJoinAndSelect('form.category', 'category')
+      .where('category.criterion IS NULL')
+      .orWhere('category.criterion = :deptName', { deptName: options?.dept })
+      .orWhere('category.criterion = :scholarName', { scholarName: options?.scholar })
+      .orWhere('category.criterion = :dormDetail', { dormDetail: options?.dormDetail })
+      .orderBy('form.totalView', 'DESC')
+      .limit(7)
+      .getMany();
+    return findMostView;
+  }
+
+  async findByMostViewGuest() {
+    const findMostView = await this.formRepository
+      .createQueryBuilder('form')
+      .leftJoinAndSelect('form.category', 'category')
+      .orderBy('form.totalView', 'DESC')
+      .limit(7)
+      .getMany();
     return findMostView;
   }
 

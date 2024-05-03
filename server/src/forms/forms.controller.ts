@@ -69,6 +69,11 @@ export class FormsController {
     return this.formsService.findByMostView(options);
   }
 
+  @Put('mostViewGuest')
+  findByMostViewGuest() {
+    return this.formsService.findByMostViewGuest();
+  }
+
   @SerializeOptions({ groups: ['detail'] })
   @Get(':id')
   findOne(@Param('id') id: string) {

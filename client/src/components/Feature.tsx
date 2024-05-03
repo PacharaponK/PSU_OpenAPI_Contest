@@ -24,11 +24,11 @@ const Feature: React.FC<FeatureProps> = () => {
         <ScrollAnimationWrapper className="flex w-full justify-end">
           <motion.div className="h-full w-full p-4" variants={scrollAnimation}>
             <Image
-              src={"/form_animation.gif"}
+              src={"/landing2.gif"}
               alt=""
               layout="responsive"
               quality={100}
-              height={414}
+              height={400}
               width={508}
             />
           </motion.div>

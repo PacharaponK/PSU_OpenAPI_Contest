@@ -195,6 +195,7 @@ function FormIdPage() {
                     key={index}
                     src={url}
                     alt={`${index + 1}`}
+                    className="w-full h-full"
                   />
                 ))}
               </Carousel>

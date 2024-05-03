@@ -13,6 +13,8 @@ export const FormType = z.array(
 export const CategoryScheme = z.array(
     z.object({
         id: z.number(),
+        icon: z.string().nullable(),
+        criterion: z.string().nullable(),
         name: z.string(),
         forms: FormType
     })

@@ -10,6 +10,9 @@ export class Category {
     name: string;
 
     @Column({nullable: true})
+    icon: string;
+
+    @Column({nullable: true})
     criterion: string;
 
     @OneToMany(() => Form, (form) => form.category)
