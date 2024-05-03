@@ -52,44 +52,45 @@ function FormIdPage() {
       const customFont = await pdfDoc.embedFont(fontBytes);
 
       const pages = pdfDoc.getPages();
-
-      form.modifiedConfig?.map((config: any) => {
-        const modifyPage = pages[config.page];
-        if (config?.type == "drawText") {
-          modifyPage.drawText(eval(config?.data), {
-            x: config.posX,
-            y: config.posY,
-            size: 15,
-            font: customFont,
-            color: rgb(0, 0, 0),
-          });
-        }
-        if (config?.type == "drawCircle") {
-          if (config?.data == studentDetail?.titleNameThai || config?.data == studentDetail?.titleShortEng) {
-            modifyPage.drawCircle({
+      if (studentDetail) {
+        form.modifiedConfig?.map((config: any) => {
+          const modifyPage = pages[config?.page];
+          if (config?.type == "drawText") {
+            modifyPage.drawText(eval(config?.data), {
               x: config.posX,
-              y: config.posY,
-              size: 10,
-              opacity: 0,
-              borderOpacity: 1,
-              borderColor: rgb(0, 0, 0),
-            });
-          }
-        }
-        if (config?.type == "loop") {
-          let posX = config.posX;
-          for (let i = 0; i < eval(config?.data).length; i++) {
-            modifyPage.drawText(eval(config?.data)[i], {
-              x: posX,
               y: config.posY,
               size: 15,
               font: customFont,
               color: rgb(0, 0, 0),
             });
-            posX += config.gap
           }
-        }
-      });
+          if (config?.type == "drawCircle") {
+            if (config?.data == studentDetail?.titleNameThai || config?.data == studentDetail?.titleShortEng) {
+              modifyPage.drawCircle({
+                x: config.posX,
+                y: config.posY,
+                size: 10,
+                opacity: 0,
+                borderOpacity: 1,
+                borderColor: rgb(0, 0, 0),
+              });
+            }
+          }
+          if (config?.type == "loop") {
+            let posX = config.posX;
+            for (let i = 0; i < eval(config?.data).length; i++) {
+              modifyPage.drawText(eval(config?.data)[i], {
+                x: posX,
+                y: config.posY,
+                size: 15,
+                font: customFont,
+                color: rgb(0, 0, 0),
+              });
+              posX += config.gap
+            }
+          }
+        });
+      }
 
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes], { type: "application/pdf" });
