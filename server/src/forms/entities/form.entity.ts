@@ -28,16 +28,14 @@ export class Form {
     updateDate: string;
 
     @Expose({ groups: ['detail']})
-    @Column({nullable: true})
-    pageModified: number;
-
-    @Expose({ groups: ['detail']})
     @Column("simple-json", {nullable: true})
     modifiedConfig : {
         type: string,
         posX: number,
         posY: number,
+        gap: number,
         data: string,
+        page: number,
     }[]
 
     @ManyToOne(() => Category, (category) => category.forms, {cascade: true})
