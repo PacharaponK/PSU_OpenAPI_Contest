@@ -103,7 +103,7 @@ function HomePage() {
                                 category.criterion === studentDetail?.dormDetail
                             )) && (
                                 <div key={category.id} className="space-y-5">
-                                    <div className="pt-10 space-x-3 flex flex-row justify-between">
+                                    <div className="pt-10 space-x-3 flex w-full flex-row justify-between">
                                         <div className="flex flex-row space-x-3">
                                             <div className="bg-opacity-65 bg-[#2372b5] w-[6vw] rounded-full max-lg:hidden"></div>
                                             <svg
