@@ -1,5 +1,6 @@
 import { Expose } from "class-transformer";
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Feedback } from "src/feedbacks/entities/feedback.entity";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -22,4 +23,7 @@ export class User {
 
     @Column({ nullable: true })
     scholarship: string;
+
+    @OneToMany(() => Feedback, (feedback) => feedback.user)
+    feedbacks: Feedback[];
 }

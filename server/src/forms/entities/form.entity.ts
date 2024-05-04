@@ -1,6 +1,7 @@
 import { Expose } from "class-transformer";
 import { Category } from "src/categories/entities/category.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Feedback } from "src/feedbacks/entities/feedback.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Form {
@@ -40,6 +41,9 @@ export class Form {
 
     @ManyToOne(() => Category, (category) => category.forms, {cascade: true})
     category: Category;
+
+    @OneToMany(() => Feedback, (feedback) => feedback.form)
+    feedbacks: Feedback[];
 }
 
 

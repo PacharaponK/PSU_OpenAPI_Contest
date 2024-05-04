@@ -14,6 +14,7 @@ import Stepper from "@/components/Stepper";
 import { Carousel } from "flowbite-react";
 import HomeCarousel from "@/components/Carousel";
 import { useStudentContext } from "@/contexts/StudentContext";
+import ModalFB from "@/components/ModalFeedback";
 
 function FormIdPage() {
   const router = useRouter();
@@ -23,6 +24,7 @@ function FormIdPage() {
     useStudentContext();
   const [pdfUrl, setPdfUrl] = useState<string>();
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModalFB, setOpenModalFB] = useState<boolean>(false);
 
   const fetchForm = async () => {
     try {
@@ -35,6 +37,22 @@ function FormIdPage() {
 
   console.log(studentDetail);
 
+  const handleSubmitFeedback = async (data:any) => {
+    try {
+      await axios.post(`${conf.urlPrefix}/feedbacks`, {
+        text: data,
+        user: {
+          id: studentDetail?.refId
+        },
+        form: {
+          id: form?.id
+        }
+      });
+      router.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   async function modifyPdf(form: any) {
     try {
@@ -150,6 +168,7 @@ function FormIdPage() {
               <div className="space-x-2">
                 <button
                   type="button"
+                  onClick={() => setOpenModalFB(true)}
                   className="text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                 >
                   แจ้งปัญหา
@@ -161,6 +180,7 @@ function FormIdPage() {
                 >
                   ดาวน์โหลดฟอร์ม
                 </button>
+                <ModalFB openModal={openModalFB} setOpenModal={setOpenModalFB} onSubmit={handleSubmitFeedback} />
               </div>
             </div>
           </div>
@@ -217,6 +237,7 @@ function FormIdPage() {
               <div className="space-x-3">
                 <button
                   type="button"
+                  onClick={() => setOpenModalFB(true)}
                   className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                 >
                   แจ้งปัญหา
@@ -228,7 +249,7 @@ function FormIdPage() {
                 >
                   ดาวน์โหลดฟอร์ม
                 </button>
-
+                <ModalFB openModal={openModalFB} setOpenModal={setOpenModalFB} onSubmit={handleSubmitFeedback} />
               </div>
             </div>
           </div>
