@@ -1,11 +1,10 @@
 import React, { createContext, useEffect } from 'react';
 import { useSetState } from 'react-use';
 import conf from '../conf/main';
-import ax,{ axData } from '../conf/ax';
+import ax, { axData } from '../conf/ax';
 
 interface User {
-    id: number;
-    // Define other properties of the user object
+    email: string;
 }
 
 interface AuthState {
@@ -48,31 +47,35 @@ export const ContextProvider: React.FC<ContextProviderProps> = (props: ContextPr
     const [state, setState] = useSetState<AuthState>(initialState);
 
     const setLoginPending = (isLoginPending: boolean) => setState({ isLoginPending });
-    const setLoginSuccess = (isLoggedIn: boolean, user: User | null) => setState({ isLoggedIn, user });
+    const setLoginSuccess = (isLoggedIn: boolean, user: User | undefined) => setState({ isLoggedIn, user });
     const setLoginError = (loginError: string | null) => setState({ loginError });
 
-    const handleLoginResult = (error: string | null, result?: { jwt?: string; user?: User }) => {
+    const handleLoginResult = (error: string | null, result?: { access_token?: string; email?: User }) => {
         setLoginPending(false);
-        console.log('handleLoginResult:',result);
+        console.log(result);
         
-        if (result && result.user) {
-            if (result.jwt) {
-                updateJwt(result.jwt);
+        if (result?.email) {
+            if (result.access_token) {
+                updateJwt(result.access_token);
             }
-            setLoginSuccess(true, result.user);
+            setLoginSuccess(true, result.email);
         } else if (error) {
             setLoginError(error);
         }
     };
 
     useEffect(() => {
-        setLoginPending(true);
-        loadPersistedJwt(handleLoginResult);
+        const persistedJwt = sessionStorage.getItem(conf.jwtSessionStorageKey);
+        if (persistedJwt) {
+            setLoginPending(true);
+            loadPersistedJwt(handleLoginResult);
+        }
     }, []);
+    
 
     const login = async (username: string, password: string) => {
         setLoginPending(true);
-        setLoginSuccess(false, null);
+        setLoginSuccess(false, undefined);
         setLoginError(null);
 
         await fetchLogin(username, password, handleLoginResult);
@@ -81,7 +84,7 @@ export const ContextProvider: React.FC<ContextProviderProps> = (props: ContextPr
     const logout = () => {
         setLoginPending(false);
         updateJwt(null);
-        setLoginSuccess(false, null);
+        setLoginSuccess(false, undefined);
         setLoginError(null);
     };
 
@@ -98,14 +101,13 @@ export const ContextProvider: React.FC<ContextProviderProps> = (props: ContextPr
     );
 };
 
-const fetchLogin = async (username: string, password: string, callback: (error: string | null, result?: { jwt?: string; user?: User }) => void) => {
+const fetchLogin = async (username: string, password: string, callback: (error: string | null, result?: { access_token?: string; email?: User }) => void) => {
     try {
         const response = await ax.post(conf.loginEndpoint, {
             email: username,
             password,
         });
-        console.log(response);
-        
+
         if (response.data.access_token) {
             callback(null, response.data);
         } else {
@@ -116,14 +118,16 @@ const fetchLogin = async (username: string, password: string, callback: (error: 
     }
 };
 
-const loadPersistedJwt = async (callback: (error: string | null, result?: { jwt?: string; user?: User }) => void) => {
+const loadPersistedJwt = async (callback: (error: string | null, result?: { access_token?: string; email?: User }) => void) => {
     try {
         const persistedJwt = sessionStorage.getItem(conf.jwtSessionStorageKey);
         if (persistedJwt) {
             axData.jwt = persistedJwt;
             const response = await ax.get(conf.jwtUserEndpoint);
+
             if (response.data.id > 0) {
-                callback(null, { user: response.data });
+                console.log(response);
+                callback(null, { email: response.data.email });
             } else {
                 callback(null);
             }

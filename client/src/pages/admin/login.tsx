@@ -1,14 +1,15 @@
 import { AuthContext, ContextProvider } from '@/contexts/Auth.context';
+import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 
 export default function LoginPage() {
-    // สร้าง state สำหรับเก็บค่า email และ password
+    const router = useRouter()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const authContext = useContext(AuthContext);
     console.log("🚀 ~ LoginPage ~ authContext:", authContext)
-    
-    const { login = () => {} } = authContext || {}; 
+
+    const { login = () => { } } = authContext || {};
 
     const handleEmailChange = (e: string) => {
         setEmail(e);
@@ -20,31 +21,14 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-
         console.log(email, password);
         login(email, password);
-
-        // try {
-        //     const response = await fetch('loginendpoint', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify({ email, password })
-        //     });
-
-        //     // ตรวจสอบสถานะของ response
-        //     if (response.ok) {
-        //         // หากสำเร็จ ทำอะไรต่อไปนั้นอยู่ในส่วนของคุณ
-        //         console.log('Login successful');
-        //     } else {
-        //         // หากไม่สำเร็จ ทำอะไรต่อไปนั้นอยู่ในส่วนของคุณ
-        //         console.error('Login failed');
-        //     }
-        // } catch (error) {
-        //     console.error('Error:', error);
-        // }
     }
+
+    if (authContext?.state.isLoggedIn) {
+        router.push('/admin/form')
+    }
+
 
     return (
         <ContextProvider>
@@ -54,8 +38,8 @@ export default function LoginPage() {
                     <img src="/loginPic.png" alt="Placeholder Image" className="object-cover w-full h-full" />
                 </div>
                 {/* Right: Login Form */}
-                <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
-                    <h1 className="text-2xl font-semibold mb-4">ระบบฐานข้อมูล PSUFormHubs</h1>
+                <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2 bg-white shadow-2xl h-screen flex flex-col justify-center">
+                    <h1 className="text-2xl font-semibold mb-4">ระบบฐานข้อมูล PSUFormHub</h1>
                     <form onSubmit={handleSubmit}>
                         {/* Username Input */}
                         <div className="mb-4">
@@ -76,6 +60,7 @@ export default function LoginPage() {
                         </div>
                         {/* Login Button */}
                         <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full">เข้าสู่ระบบ</button>
+                        {authContext?.state.loginError !== null ? <p className='text-red-500 pt-5'>รหัสผ่านไม่ถูกต้องหรือไม่พบบัชญีนี้ในระบบ</p> : <></>}
                     </form>
                 </div>
             </div>
