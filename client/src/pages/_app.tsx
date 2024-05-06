@@ -4,6 +4,7 @@ import { AuthProvider } from "react-oidc-context";
 import conf from "@/conf/main";
 import { Route } from "@/modules/routes";
 import { StudentProvider } from "../contexts/StudentContext";
+import { ContextProvider } from "@/contexts/Auth.context";
 
 const oidcConfig = {
   onSigninCallback: (user: any) => {
@@ -22,9 +23,11 @@ const oidcConfig = {
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider {...oidcConfig}>
+      <ContextProvider>
       <StudentProvider>
         <Component {...pageProps} />
       </StudentProvider>
+      </ContextProvider>
     </AuthProvider>
   );
 }

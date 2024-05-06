@@ -1,0 +1,27 @@
+import axios from "axios"
+import conf from './main'
+
+export const axData: {
+    jwt: string | null;
+} = {
+    jwt: null,
+};
+
+
+const ax = axios.create({
+    baseURL: conf.urlPrefix,
+    withCredentials: true,
+})
+
+ax.interceptors.request.use(function (config) {
+    if (axData.jwt && config.url !== conf.loginEndpoint) {
+        config.headers['Authorization'] = `Bearer ${axData.jwt}`
+    }
+    return config;
+}, function (error) {
+
+    return Promise.reject(error);
+});
+
+export default ax;
+
