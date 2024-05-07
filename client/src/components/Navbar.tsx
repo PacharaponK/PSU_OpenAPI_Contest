@@ -42,19 +42,11 @@ function Navbar() {
               </Link>
             </div>
             <div className="hidden md:flex md:items-center md:justify-center md:gap-5">
-              {/* <a aria-current="page"
-                                className="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
-                                href="#">How it works</a>
-                            <a className="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
-                                href="#">Pricing</a> */}
             </div>
             <div className="flex items-center justify-end gap-3">
-              {/* <Link
-                className="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 sm:inline-flex"
-                href="/profile"
-              >
-                โปรไฟล์
-              </Link> */}
+              <Link className="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 sm:inline-flex" href={'/admin/form/feedback'}>
+                การตอบกลับ
+              </Link>
               <button
                 type="button"
                 onClick={() => adminLogout()}
@@ -62,16 +54,6 @@ function Navbar() {
               >
                 ออกจากระบบ
               </button>
-              {/* <div className="h-10 w-10 relative">
-                {studentImage && studentImage.pictureBase64 && (
-                  <Image
-                    src={`data:image/png;base64,${studentImage.pictureBase64}`}
-                    alt=""
-                    layout="fill"
-                    className="rounded-full"
-                  />
-                )}
-              </div> */}
             </div>
           </div>
         </div>

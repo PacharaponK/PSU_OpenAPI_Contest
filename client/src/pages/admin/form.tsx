@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import axios from "axios";
 import conf from "@/conf/main";
 import { Category, SingleCategory } from "@/modules/category";
 import MultipleSwiper from "@/components/MultipleSlider";
 import Image from "next/image";
 import { useStudentContext } from "@/contexts/StudentContext";
-import { Form } from "@/modules/form";
 import { FormWithCategory } from "@/modules/formWithCategory";
 import MultipleFormSwiper from "@/components/MultipleFormSlider";
 import ax from "@/conf/ax";
 import { Route } from "@/modules/routes";
-import { SingleForm } from "@/modules/singleForm";
 import { FilterDropdown } from "@/components/FilterDropdown";
 
 export function Landing() {
@@ -59,6 +56,8 @@ function HomePage() {
         fetchFormsByCategory();
     }, [])
 
+
+
     useEffect(() => {
         const fetchFormsByMostView = async () => {
             if (studentDetail) {
@@ -79,9 +78,6 @@ function HomePage() {
         fetchFormsByMostView();
     }, [studentDetail]);
 
-    console.log(categoryWithForms);
-
-
     return (
         <div>
             <div>
@@ -97,7 +93,7 @@ function HomePage() {
                     <div className="flex px-5 space-x-5 justify-between items-center">
                         {/* <h1 className="text-2xl md:text-3xl font-bold w-full">ฟอร์มทั้งหมด</h1> */}
                         <FilterDropdown categories={categoryWithForms} categorySelected={categorySelected} setCategorySelected={setCategorySelected} />
-                        <hr className="w-8/12 h-1 mx-auto my-4 bg-[#64b8fd] border-0 rounded md:my-10 dark:bg-gray-700" />
+                        <hr className="w-8/12 h-2 mx-auto my-4 bg-[#64b8fd] border-0 rounded md:my-10 dark:bg-gray-700" />
                         <div className="relative text-gray-600 focus-within:text-gray-400">
                             <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                 <button type="submit" className="p-1 focus:outline-none focus:shadow-outline">

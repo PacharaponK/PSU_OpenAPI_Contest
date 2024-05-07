@@ -23,6 +23,18 @@ export class CategoriesService {
     return listAllCategory;
   }
 
+  async findByOption(options: { dept: string, scholar: string, dormDetail: string }) {
+    const listAllCategory = await this.categoryRepository.
+      createQueryBuilder('category')
+      .leftJoinAndSelect('category.forms', 'forms')
+      .where('category.criterion IS NULL')
+      .orWhere('category.criterion = :deptName', { deptName: options?.dept })
+      .orWhere('category.criterion = :scholarName', { scholarName: options?.scholar })
+      .orWhere('category.criterion = :dormDetail', { dormDetail: options?.dormDetail })
+      .getMany();
+    return listAllCategory;
+  }
+
   async findOne(id: number) {
     const findCategory = await this.categoryRepository.find({
       where: { id: id },

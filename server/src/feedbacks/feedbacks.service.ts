@@ -17,7 +17,7 @@ export class FeedbacksService {
   }
 
   async findAll() {
-    return await this.feedbackRepository.find({ relations: ["user","form"] });
+    return await this.feedbackRepository.find({ relations: ["user","form",] });
   }
 
   async findOne(id: number) {

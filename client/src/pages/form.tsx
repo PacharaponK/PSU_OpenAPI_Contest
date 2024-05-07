@@ -8,7 +8,6 @@ import { Category } from "@/modules/category";
 import MultipleSwiper from "@/components/MultipleSlider";
 import Image from "next/image";
 import { useStudentContext } from "@/contexts/StudentContext";
-import { Form } from "@/modules/form";
 import { FormWithCategory } from "@/modules/formWithCategory";
 import MultipleFormSwiper from "@/components/MultipleFormSlider";
 
@@ -46,11 +45,6 @@ function HomePage() {
     const [dropdownOpen, setDropdownOpen] = useState<DropdownState>({});
     const [mostViewForms, setMostViewForms] = useState<FormWithCategory>();
 
-    const fetchFormsByCategory = async () => {
-        const listForms = await axios.get(`${conf.urlPrefix}/categories`);
-        setCategoryWithForms(listForms.data);
-    };
-
     const toggleDropdown = (categoryId: string) => {
         setDropdownOpen(prevState => ({
             ...prevState,
@@ -59,8 +53,27 @@ function HomePage() {
     };
 
     useEffect(() => {
+        const fetchFormsByCategory = async () => {
+            try {
+                let listForms;
+                if (studentDetail) {
+                    listForms = await axios.put(`${conf.urlPrefix}/categories/findByOption`, {
+                        scholar: studentDetail?.scholarship,
+                        dept: studentDetail?.deptNameThai,
+                        dormDetail: studentDetail?.dormDetail
+                    });
+                } else {
+                    listForms = await axios.get(`${conf.urlPrefix}/categories`);
+                }
+                setCategoryWithForms(listForms.data);
+            } catch (error) {
+                console.error("Error fetching forms:", error);
+            }
+        };
+
         fetchFormsByCategory();
-    }, [])
+    }, [studentDetail]);
+
 
     useEffect(() => {
         const fetchFormsByMostView = async () => {
