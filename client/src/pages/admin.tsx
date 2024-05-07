@@ -16,7 +16,7 @@ interface HeroProps {
     signIn: () => void;
 }
 
-const Hero: React.FC<HeroProps> = ({ signIn }) => {
+const Hero: React.FC<HeroProps> = () => {
     const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
     return (
@@ -35,12 +35,9 @@ const Hero: React.FC<HeroProps> = ({ signIn }) => {
                             <p className="text-black-500 mt-4 mb-3">
                                 หากท่านไม่พบบัญชีผู้ใช้หรือต้องการลงทะเบียน กรุณาติดต่อสำนักงานเจ้าของระบบ
                             </p>
-                            <button
-                                className="bg-blue-900 hover:bg-blue-950 text-white font-bold rounded-xl p-4 w-50 w-4/6 mt-5"
-                                onClick={signIn}
-                            >
-                                <p>เข้าสู่ระบบ</p>
-                            </button>
+                            <Link href={"/admin/login"} className="bg-blue-900 hover:bg-blue-950 justify-center flex text-white font-bold rounded-xl p-4 w-50 w-4/6 mt-5">
+                                <p className="text-center mx-auto">เข้าสู่ระบบ</p>
+                            </Link>
                         </div>
                         <div className="flex w-full">
                             <motion.div className="h-full w-full" variants={scrollAnimation}>

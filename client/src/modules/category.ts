@@ -20,4 +20,15 @@ export const CategoryScheme = z.array(
     })
 );
 
+export const SingleCategoryScheme =
+    z.object({
+        id: z.number(),
+        icon: z.string().nullable(),
+        criterion: z.string().nullable(),
+        name: z.string(),
+        forms: FormType
+    }
+    );
+
 export type Category = z.infer<typeof CategoryScheme>
+export type SingleCategory = z.infer<typeof SingleCategoryScheme>

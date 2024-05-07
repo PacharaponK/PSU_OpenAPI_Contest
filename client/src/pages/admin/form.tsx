@@ -4,7 +4,7 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import axios from "axios";
 import conf from "@/conf/main";
-import { Category } from "@/modules/category";
+import { Category, SingleCategory } from "@/modules/category";
 import MultipleSwiper from "@/components/MultipleSlider";
 import Image from "next/image";
 import { useStudentContext } from "@/contexts/StudentContext";
@@ -12,6 +12,9 @@ import { Form } from "@/modules/form";
 import { FormWithCategory } from "@/modules/formWithCategory";
 import MultipleFormSwiper from "@/components/MultipleFormSlider";
 import ax from "@/conf/ax";
+import { Route } from "@/modules/routes";
+import { SingleForm } from "@/modules/singleForm";
+import { FilterDropdown } from "@/components/FilterDropdown";
 
 export function Landing() {
     return (
@@ -44,19 +47,15 @@ type DropdownState = {
 function HomePage() {
     const { studentDetail } = useStudentContext();
     const [categoryWithForms, setCategoryWithForms] = useState<Category>([]);
-    const [dropdownOpen, setDropdownOpen] = useState<DropdownState>({});
     const [mostViewForms, setMostViewForms] = useState<FormWithCategory>();
+    const [categorySelected, setCategorySelected] = useState<string>("ฟอร์มทั้งหมด");
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [formsPerPage] = useState<number>(15);
 
     const fetchFormsByCategory = async () => {
         const listForms = await ax.get(`${conf.urlPrefix}/categories`);
         setCategoryWithForms(listForms.data);
-    };
-
-    const toggleDropdown = (categoryId: string) => {
-        setDropdownOpen(prevState => ({
-            ...prevState,
-            [categoryId]: !prevState[categoryId]
-        }));
     };
 
     useEffect(() => {
@@ -83,6 +82,23 @@ function HomePage() {
         fetchFormsByMostView();
     }, [studentDetail]);
 
+    const indexOfLastForm = currentPage * formsPerPage;
+    const indexOfFirstForm = indexOfLastForm - formsPerPage;
+    const currentForms = categoryWithForms
+        ?.map((category: SingleCategory) => category.forms)
+        ?.flat()
+        ?.filter((form: any) => {
+            return (
+                (categorySelected === "ฟอร์มทั้งหมด" || form.category.name === categorySelected) &&
+                (form.name.toLowerCase().includes(searchQuery.toLowerCase()) || form.category.name.toLowerCase().includes(searchQuery.toLowerCase()))
+            );
+        });
+    const currentFormsToShow = currentForms?.slice(indexOfFirstForm, indexOfLastForm);
+
+
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+
     return (
         <div>
             <div>
@@ -94,87 +110,59 @@ function HomePage() {
                     <h1 className="text-2xl md:text-3xl font-bold text-center">ฟอร์มยอดนิยม</h1>
                     <MultipleFormSwiper forms={mostViewForms} />
                 </div>
-                <div className="flex bg-white h-full lg:px-10 pb-5 items-start">
-                    <div className="flex flex-col">
-                        {categoryWithForms && categoryWithForms.map((category: any) => (
-                            (!studentDetail || (
-                                category.criterion === null ||
-                                category.criterion === studentDetail?.scholarship ||
-                                category.criterion === studentDetail?.deptNameThai ||
-                                category.criterion === studentDetail?.dormDetail
-                            )) && (
-                                <div key={category.id} className="space-y-5">
-                                    <div className="pt-10 space-x-3 flex w-full flex-row justify-between">
-                                        <div className="flex flex-row space-x-3">
-                                            <div className="bg-opacity-65 bg-[#2372b5] w-[6vw] rounded-full max-lg:hidden"></div>
-                                            <svg
-                                                width="32"
-                                                height="32"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path d="M9 7H7V9H9V7Z" fill="currentColor" />
-                                                <path d="M7 13V11H9V13H7Z" fill="currentColor" />
-                                                <path d="M7 15V17H9V15H7Z" fill="currentColor" />
-                                                <path d="M11 15V17H17V15H11Z" fill="currentColor" />
-                                                <path d="M17 13V11H11V13H17Z" fill="currentColor" />
-                                                <path d="M17 7V9H11V7H17Z" fill="currentColor" />
-                                            </svg>
-                                            <span className="text-xl md:text-2xl font-semibold">{category.name}</span>
-                                        </div>
-                                        <div className="md:bg-opacity-65 md:bg-[#2371b5] md:w-[63vw] w-[15vw] rounded-full justify-end right flex items-center">
-                                            <svg
-                                                onClick={() => toggleDropdown(category.id)}
-                                                className="mr-5 text-end w-6 h-6 text-black md:text-white hover:text-gray-300 dark:text-white"
-                                                aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path
-                                                    stroke="currentColor"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="m19 9-7 7-7-7"
-                                                />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    {dropdownOpen[category.id] && (
-                                        <div className="lg:px-24 flex flex-col flex-wrap space-y-4">
-                                            {category.forms && category.forms.map((form: any) => (
-                                                <div key={form.id} className="px-5 pb-1">
-                                                    <Link href={`form/${form.id}`} className="hover:text-gray-700 hover:font-bold flex flex-row items-center">
-                                                        <svg
-                                                            width="30"
-                                                            height="30"
-                                                            viewBox="0 0 24 24"
-                                                            fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                        >
-                                                            <path d="M7 18H17V16H7V18Z" fill="currentColor" />
-                                                            <path d="M17 14H7V12H17V14Z" fill="currentColor" />
-                                                            <path d="M7 10H11V8H7V10Z" fill="currentColor" />
-                                                            <path
-                                                                fillRule="evenodd"
-                                                                clipRule="evenodd"
-                                                                d="M6 2C4.34315 2 3 3.34315 3 5V19C3 20.6569 4.34315 22 6 22H18C19.6569 22 21 20.6569 21 19V9C21 5.13401 17.866 2 14 2H6ZM6 4H13V9H19V19C19 19.5523 18.5523 20 18 20H6C5.44772 20 5 19.5523 5 19V5C5 4.44772 5.44772 4 6 4ZM15 4.10002C16.6113 4.4271 17.9413 5.52906 18.584 7H15V4.10002Z"
-                                                                fill="currentColor"
-                                                            />
-                                                        </svg>
-                                                        <h1 className="text-sm md:text-base">{form.name}</h1>
-                                                    </Link>
+                <div className="flex-col bg-white h-full px-5 py-10 items-start">
+                    <div className="flex px-5 space-x-5 justify-between items-center">
+                        {/* <h1 className="text-2xl md:text-3xl font-bold w-full">ฟอร์มทั้งหมด</h1> */}
+                        <FilterDropdown categories={categoryWithForms} categorySelected={categorySelected} setCategorySelected={setCategorySelected} />
+                        <hr className="w-8/12 h-1 mx-auto my-4 bg-[#64b8fd] border-0 rounded md:my-10 dark:bg-gray-700" />
+                        <div className="relative text-gray-600 focus-within:text-gray-400">
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+                                <button type="submit" className="p-1 focus:outline-none focus:shadow-outline">
+                                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" strokeWidth="2" viewBox="0 0 24 24" className="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                </button>
+                            </span>
+                            <input
+                                type="search"
+                                name="q"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="py-2 text-sm max-md:w-11/12 text-white bg-white rounded-full pl-10 focus:outline-none focus:bg-white focus:text-gray-900"
+                                placeholder="ค้นหาฟอร์ม"
+                            />
+                        </div>
+                    </div>
+                    <div className="p-2 px-3 flex flex-wrap items-center justify-center">
+                        {categoryWithForms && categoryWithForms.map((category: SingleCategory) => (
+                            category.forms.map((form: any) => {
+                                if ((category.name === categorySelected || categorySelected === "ฟอร์มทั้งหมด") && (form.name.toLowerCase().includes(searchQuery.toLowerCase())) || (category.name.toLowerCase().includes(searchQuery.toLowerCase()))) {
+                                    return (
+                                        <Link href={Route.form.formDetail(form.id)} key={form.id}>
+                                            <div key={form.id} className="p-1 flex flex-wrap items-center justify-center">
+                                                <div className="flex-shrink-0 m-4 relative hover:scale-105 transition duration-500 cursor-pointer overflow-hidden bg-blue-400 rounded-lg max-w-xs shadow-lg" style={{ width: "250px", height: "300px" }}>
+                                                    <svg className="absolute bottom-0 left-0 mb-8" viewBox="0 0 375 283" fill="none" style={{ transform: "scale(1.5)", opacity: "0.1" }}>
+                                                        <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="white" />
+                                                        <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="white" />
+                                                    </svg>
+                                                    <div className="relative pt-10 px-10 flex items-center justify-center">
+                                                        <div className="block absolute md:w-40 md:h-40 w-20 h-20 bottom-0 left-0 -mb-24 ml-3" style={{ background: "radial-gradient(black, transparent 60%)", transform: "rotate3d(0, 0, 1, 20deg) scale3d(1, 0.6, 1)", opacity: "0.2" }}></div>
+                                                        <img className="relative md:w-28 w-20" src={category.icon ? `${conf.categoryUrlPrefix}${category.icon}` : "/mostViewIcon.png"} alt={category.name} />
+                                                    </div>
+                                                    <div className="relative text-white it px-6 pb-6 mt-6">
+                                                        <span className="block opacity-75 -mb-1">{category.name}</span>
+                                                        <div className="flex justify-between">
+                                                            <span className="block font-semibold text-xl">{form.name}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            )
+                                            </div>
+                                        </Link>
+                                    );
+                                } else {
+                                    return null; // ไม่แสดงฟอร์มที่ไม่ตรงกับ category ที่ถูกเลือก หรือไม่ตรงกับคำค้นหา
+                                }
+                            })
                         ))}
+
                     </div>
                 </div>
                 <div className="p-5">
