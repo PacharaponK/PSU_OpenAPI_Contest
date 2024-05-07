@@ -50,9 +50,6 @@ function HomePage() {
     const [mostViewForms, setMostViewForms] = useState<FormWithCategory>();
     const [categorySelected, setCategorySelected] = useState<string>("ฟอร์มทั้งหมด");
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [formsPerPage] = useState<number>(15);
-
     const fetchFormsByCategory = async () => {
         const listForms = await ax.get(`${conf.urlPrefix}/categories`);
         setCategoryWithForms(listForms.data);
@@ -82,21 +79,7 @@ function HomePage() {
         fetchFormsByMostView();
     }, [studentDetail]);
 
-    const indexOfLastForm = currentPage * formsPerPage;
-    const indexOfFirstForm = indexOfLastForm - formsPerPage;
-    const currentForms = categoryWithForms
-        ?.map((category: SingleCategory) => category.forms)
-        ?.flat()
-        ?.filter((form: any) => {
-            return (
-                (categorySelected === "ฟอร์มทั้งหมด" || form.category.name === categorySelected) &&
-                (form.name.toLowerCase().includes(searchQuery.toLowerCase()) || form.category.name.toLowerCase().includes(searchQuery.toLowerCase()))
-            );
-        });
-    const currentFormsToShow = currentForms?.slice(indexOfFirstForm, indexOfLastForm);
-
-
-    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+    console.log(categoryWithForms);
 
 
     return (
@@ -134,7 +117,7 @@ function HomePage() {
                     <div className="p-2 px-3 flex flex-wrap items-center justify-center">
                         {categoryWithForms && categoryWithForms.map((category: SingleCategory) => (
                             category.forms.map((form: any) => {
-                                if ((category.name === categorySelected || categorySelected === "ฟอร์มทั้งหมด") && (form.name.toLowerCase().includes(searchQuery.toLowerCase())) || (category.name.toLowerCase().includes(searchQuery.toLowerCase()))) {
+                                if ((category.name === categorySelected || categorySelected === "ฟอร์มทั้งหมด") && (form.name.toLowerCase().includes(searchQuery.toLowerCase())) || (category.name.toLowerCase().includes(searchQuery.toLowerCase())) ) {
                                     return (
                                         <Link href={Route.form.formDetail(form.id)} key={form.id}>
                                             <div key={form.id} className="p-1 flex flex-wrap items-center justify-center">
