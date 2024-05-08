@@ -8,25 +8,9 @@ import fontkit from "@pdf-lib/fontkit";
 import { PDFDocument } from "pdf-lib";
 import React, { useState, ChangeEvent, useEffect } from "react";
 import PreviewModal from "@/components/PreviewModal";
+import { FormData } from "./post";
 
-interface FormData {
-	name?: string;
-	detail?: string;
-	updateDate?: string;
-	picDetailURL?: string;
-	modifiedConfig?: {
-		type?: string;
-		posX?: number;
-		posY?: number;
-		gap?: number;
-		data?: string;
-	}[];
-	category: {
-		id?: number;
-	};
-}
-
-function PostFormPage() {
+export function PostFormPage() {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const [progressIndex, setProgessIndex] = useState<string>("1");
 	const [categories, setCategories] = useState<Category>();
@@ -34,9 +18,9 @@ function PostFormPage() {
 	const [pdfUrl, setPdfUrl] = useState<string>();
 	const [formData, setFormData] = useState<FormData>({
 		name: "",
-		detail: "",
+		detail: [],
 		updateDate: "",
-		picDetailURL: "",
+		picDetailURL: [],
 		modifiedConfig: [
 			{
 				type: "",
@@ -57,12 +41,8 @@ function PostFormPage() {
 		const { name, value } = e.target;
 		console.log("🚀 ~ PostFormPage ~ value:", value);
 		console.log("🚀 ~ PostFormPage ~ name:", name);
-		if (name === "detail" || (name === "picDetailURL" && value != "")) {
-			setFormData((prevData) => ({
-				...prevData,
-				[name]: value,
-			}));
-		} else if (value == "") {
+		console.log("🚀 ~ PostFormPage ~ value.split", value.split("     "));
+		if (value == "") {
 			setFormData((prevData) => ({
 				...prevData,
 				[name]: undefined,
@@ -74,8 +54,6 @@ function PostFormPage() {
 			}));
 		}
 	};
-
-	console.log(formData);
 
 	const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
@@ -91,15 +69,6 @@ function PostFormPage() {
 		} catch (error) {
 			console.error(error);
 		}
-	};
-
-	const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setFormData((prevData) => ({
-			...prevData,
-			category: {
-				id: Number(e.target.value),
-			},
-		}));
 	};
 
 	async function modifyPdf() {
@@ -185,8 +154,8 @@ function PostFormPage() {
 						</div>
 						<div className="flex justify-center space-x-2 pt-2">
 							{/* <svg className="w-9 h-9 text-black bg-white rounded-full p-2 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7" />
-                            </svg> */}
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7" />
+                </svg> */}
 							<svg
 								onClick={() => setProgessIndex("2")}
 								className="w-9 h-9 text-black bg-white rounded-full p-2 dark:text-white"
@@ -223,8 +192,8 @@ function PostFormPage() {
 							<div className="mb-1 pt-5 text-center">
 								<h2 className="text-2xl font-semibold mb-2">รายละเอียดฟอร์ม</h2>
 								{/* <p className="text-xs text-gray-500">
-									ไฟล์ควรเป็นนามสกุล .pdf เท่านั้น
-								</p> */}
+                    ไฟล์ควรเป็นนามสกุล .pdf เท่านั้น
+                </p> */}
 							</div>
 							<div className="w-full md:px-10 px-5 py-2">
 								<label
@@ -292,8 +261,8 @@ function PostFormPage() {
 										type="text"
 										id="detail"
 										name="detail"
-										value={formData.detail}
-										onChange={handleInputChange}
+										// value={formData.criterion}
+										// onChange={handleInputChange}
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="คณะวิทยาศาสตร์......"
 									/>
@@ -348,9 +317,6 @@ function PostFormPage() {
 										</label>
 										<select
 											id="id"
-											name="category"
-											onChange={handleCategoryChange}
-											value={formData.category.id}
 											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										>
 											<option className="text-gray-500" selected disabled>
@@ -434,8 +400,8 @@ function PostFormPage() {
 							<div className="mb-1 pt-5 text-center">
 								<h2 className="text-2xl font-semibold mb-2">ตั้งค่าฟอร์ม</h2>
 								{/* <p className="text-xs text-gray-500">
-									ไฟล์ควรเป็นนามสกุล .pdf เท่านั้น
-								</p> */}
+                    ไฟล์ควรเป็นนามสกุล .pdf เท่านั้น
+                </p> */}
 							</div>
 							<div className="pb-5 pt-2">
 								<button
@@ -496,5 +462,3 @@ function PostFormPage() {
 		);
 	}
 }
-
-export default PostFormPage;
