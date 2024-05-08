@@ -113,7 +113,7 @@ function HomePage() {
                     <div className="p-2 px-3 flex flex-wrap items-center justify-center">
                         {categoryWithForms && categoryWithForms.map((category: SingleCategory) => (
                             category.forms.map((form: any) => {
-                                if ((category.name === categorySelected || categorySelected === "ฟอร์มทั้งหมด") && (form.name.toLowerCase().includes(searchQuery.toLowerCase())) || (category.name.toLowerCase().includes(searchQuery.toLowerCase())) ) {
+                                if ((category.name === categorySelected || categorySelected === "ฟอร์มทั้งหมด") && (form.name.toLowerCase().includes(searchQuery.toLowerCase()) || category.name.toLowerCase().includes(searchQuery.toLowerCase())) ) {
                                     return (
                                         <Link href={Route.form.formDetail(form.id)} key={form.id}>
                                             <div key={form.id} className="p-1 flex flex-wrap items-center justify-center">
