@@ -5,9 +5,11 @@ import conf from "@/conf/main";
 import { Category } from "@/modules/category";
 import Link from "next/link";
 import fontkit from "@pdf-lib/fontkit";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, rgb } from "pdf-lib";
 import React, { useState, ChangeEvent, useEffect } from "react";
 import PreviewModal from "@/components/PreviewModal";
+import { ConfigFormTable } from "@/components/ConfigFormTable";
+import AppendConfigModal from "@/components/AppendConfigModal";
 
 interface FormData {
 	name?: string;
@@ -26,12 +28,143 @@ interface FormData {
 	};
 }
 
+interface PostDataType {
+	name?: string;
+	code?: string;
+}
+
+const postData: PostDataType[] = [
+	{
+		name: "ข้อความ",
+		code: "drawText",
+	},
+	{
+		name: "วงกลม",
+		code: "drawCircle",
+	},
+];
+
+interface StudentDataType {
+	name?: string;
+	code?: string;
+	mock?: string;
+}
+
+const studentData: StudentDataType[] = [
+	{
+		name: "ไม่ระบุ",
+		code: "",
+		mock: "",
+	},
+	{
+		name: "ชื่อ-นามสกุล",
+		code: "studentDetail.studNameThai+' '+studentDetail.studSnameThai",
+		mock: "สกุลกร ทะลน",
+	},
+	{
+		name: "คำนำหน้ากับชื่อ-นามสกุล",
+		code: "studentDetail.titleNameThai+studentDetail.studNameThai+' '+studentDetail.studSnameThai",
+		mock: "นายสกุลกร ทะลน",
+	},
+	{
+		name: "ชื่อ",
+		code: "studentDetail.studNameThai",
+		mock: "สกุลกร",
+	},
+	{
+		name: "สกุล",
+		code: "studentDetail.studSNameThai",
+		mock: "ทะลน",
+	},
+	{
+		name: "รหัสนักศึกษา",
+		code: "studentDetail.studentId",
+		mock: "5910500000",
+	},
+	{
+		name: "วิทยาเขต",
+		code: "studentDetail.campusNameThai",
+		mock: "วิทยาเขตหาดใหญ่",
+	},
+	{
+		name: "สาขาวิชา",
+		code: "studentDetail.majorNameThai",
+		mock: "ทันตแพทยศาสตร์",
+	},
+	{
+		name: "คณะที่ศึกษา",
+		code: "studentDetail.deptNameThai",
+		mock: "คณะทันตแพทยศาสตร์",
+	},
+	{
+		name: "ที่อยู่",
+		code: "studentDetail.address",
+		mock: "17/4 หมู่ 5 ถนนบำรุงราษฎร์ ตำบลพิบูลสงคราม อำเภอเมือง กรุงเทพมหานคร 10400",
+	},
+	{
+		name: "หอพัก",
+		code: "studentDetail.dorm",
+		mock: "หอพักนักศึกษาในกำกับอาคาร 10",
+	},
+	{
+		name: "ทุนการศึกษา",
+		code: "studentDetail.scholarship",
+		mock: "กยศ.",
+	},
+	{
+		name: "เบอร์โทรศัพท์",
+		code: "studentDetail.phone",
+		mock: "0812345678",
+	},
+	{
+		name: "อีเมล",
+		code: "studentDetail.email",
+		mock: "mock@psu.ac.th",
+	},
+];
+
+interface ConfigDataType {
+	type?: {
+		name?: string;
+		code?: string;
+	};
+	posX?: number;
+	posY?: number;
+	page?: number;
+	gap?: number;
+	size?: number;
+	data?: {
+		name?: string;
+		code?: string;
+		mock?: string;
+	};
+}
+
 function PostFormPage() {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
-	const [progressIndex, setProgessIndex] = useState<string>("1");
+	const [progressIndex, setProgessIndex] = useState<string>("3");
 	const [categories, setCategories] = useState<Category>();
 	const [openModal, setOpenModal] = useState<boolean>(false);
+	const [openConfigModal, setOpenConfigModal] = useState<boolean>(false);
 	const [pdfUrl, setPdfUrl] = useState<string>();
+	const [modifiedConfig, setModifiedConfig] = useState<ConfigDataType[]>([]);
+	console.log("🚀 ~ PostFormPage ~ modifiedConfig:", modifiedConfig);
+
+	const handleConfigChange = (newText: any) => {
+		console.log(newText);
+		setModifiedConfig((prevModifiedConfig) => [...prevModifiedConfig, newText]);
+	};
+
+	const updateConfig = (form: any, index: number) => {
+		console.log(modifiedConfig);
+
+		const newModifiedConfig = [...modifiedConfig];
+		newModifiedConfig[index] = form;
+		setModifiedConfig(newModifiedConfig);
+
+		console.log(modifiedConfig);
+	};
+
 	const [formData, setFormData] = useState<FormData>({
 		name: "",
 		detail: "",
@@ -75,8 +208,6 @@ function PostFormPage() {
 		}
 	};
 
-	console.log(formData);
-
 	const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (file) {
@@ -116,6 +247,30 @@ function PostFormPage() {
 				const customFont = await pdfDoc.embedFont(fontBytes);
 
 				const pages = pdfDoc.getPages();
+				if (modifiedConfig) {
+					modifiedConfig?.map((config: any) => {
+						const modifyPage = pages[Number(config?.page)];
+						if (config?.type.code == "drawText") {
+							modifyPage.drawText(config?.data.mock, {
+								x: Number(config.posX),
+								y: Number(config.posY),
+								size: 15,
+								font: customFont,
+								color: rgb(0, 0, 0),
+							});
+						}
+						if (config?.type.code == "drawCircle") {
+							modifyPage.drawCircle({
+								x: Number(config.posX),
+								y: Number(config.posY),
+								size: Number(config.size),
+								opacity: 0,
+								borderOpacity: 1,
+								borderColor: rgb(0, 0, 0),
+							});
+						}
+					});
+				}
 
 				const pdfBytes = await pdfDoc.save();
 				const blob = new Blob([pdfBytes], { type: "application/pdf" });
@@ -131,6 +286,101 @@ function PostFormPage() {
 	useEffect(() => {
 		fetchCategories();
 	}, []);
+
+	if (progressIndex === "3") {
+		return (
+			<div className="h-screen background-image">
+				<Navbar />
+				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
+					<div className="w-96 sm:w-8/12 md:pt-7 px-2">
+						<PostProgressStep name={"3/3 - ตั้งค่าฟอร์ม"} />
+						<div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-2xl">
+							<div className="mb-1 pt-5 text-center">
+								<h2 className="text-2xl font-semibold mb-2">ตั้งค่าฟอร์ม</h2>
+								{/* <p className="text-xs text-gray-500">
+									ไฟล์ควรเป็นนามสกุล .pdf เท่านั้น
+								</p> */}
+							</div>
+							<div className="w-full mb-5 p-5">
+								<ConfigFormTable
+									configData={modifiedConfig}
+									studentData={studentData}
+									postData={postData}
+									onUpdateConfig={updateConfig}
+								/>
+							</div>
+							<div className="pb-5 pt-2 flex justify-end w-full px-10 space-x-2">
+								<button
+									type="button"
+									onClick={() => setOpenConfigModal(true)}
+									className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+								>
+									เพิ่มการตั้งค่า
+								</button>
+								<button
+									type="button"
+									onClick={() => modifyPdf()}
+									className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+								>
+									พรีวิวฟอร์ม
+								</button>
+							</div>
+							<PreviewModal
+								pdfUrl={pdfUrl}
+								openModal={openModal}
+								setOpenModal={setOpenModal}
+							/>
+							<AppendConfigModal
+								openConfigModal={openConfigModal}
+								setOpenConfigModal={setOpenConfigModal}
+								studentData={studentData}
+								postData={postData}
+								onConfigChange={handleConfigChange}
+							/>
+						</div>
+						<div className="flex justify-center space-x-2 pt-2">
+							<svg
+								onClick={() => setProgessIndex("2")}
+								className="w-9 h-9 text-black bg-white rounded-full p-2 dark:text-white"
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="none"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="m15 19-7-7 7-7"
+								/>
+							</svg>
+							<svg
+								onClick={() => setProgessIndex("3")}
+								className="w-9 h-9 text-black bg-white rounded-full p-2 dark:text-white"
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="none"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="m9 5 7 7-7 7"
+								/>
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
 	if (progressIndex === "1") {
 		return (
@@ -382,79 +632,6 @@ function PostFormPage() {
 						<div className="flex justify-center space-x-2 pt-2">
 							<svg
 								onClick={() => setProgessIndex("1")}
-								className="w-9 h-9 text-black bg-white rounded-full p-2 dark:text-white"
-								aria-hidden="true"
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								fill="none"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke="currentColor"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="m15 19-7-7 7-7"
-								/>
-							</svg>
-							<svg
-								onClick={() => setProgessIndex("3")}
-								className="w-9 h-9 text-black bg-white rounded-full p-2 dark:text-white"
-								aria-hidden="true"
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								fill="none"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke="currentColor"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="m9 5 7 7-7 7"
-								/>
-							</svg>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
-	}
-
-	if (progressIndex === "3") {
-		return (
-			<div className="h-screen background-image">
-				<Navbar />
-				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
-					<div className="w-96 sm:w-6/12 md:pt-7 px-2">
-						<PostProgressStep name={"3/3 - ตั้งค่าฟอร์ม"} />
-						<div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-2xl">
-							<div className="mb-1 pt-5 text-center">
-								<h2 className="text-2xl font-semibold mb-2">ตั้งค่าฟอร์ม</h2>
-								{/* <p className="text-xs text-gray-500">
-									ไฟล์ควรเป็นนามสกุล .pdf เท่านั้น
-								</p> */}
-							</div>
-							<div className="pb-5 pt-2">
-								<button
-									type="button"
-									onClick={() => modifyPdf()}
-									className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-								>
-									พรีวิวฟอร์ม
-								</button>
-							</div>
-							<PreviewModal
-								pdfUrl={pdfUrl}
-								openModal={openModal}
-								setOpenModal={setOpenModal}
-							/>
-						</div>
-						<div className="flex justify-center space-x-2 pt-2">
-							<svg
-								onClick={() => setProgessIndex("2")}
 								className="w-9 h-9 text-black bg-white rounded-full p-2 dark:text-white"
 								aria-hidden="true"
 								xmlns="http://www.w3.org/2000/svg"
