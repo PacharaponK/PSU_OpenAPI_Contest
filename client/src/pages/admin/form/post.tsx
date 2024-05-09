@@ -10,6 +10,7 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 import PreviewModal from "@/components/PreviewModal";
 import { ConfigFormTable } from "@/components/ConfigFormTable";
 import AppendConfigModal from "@/components/AppendConfigModal";
+import toast, { Toaster } from "react-hot-toast";
 
 interface FormData {
 	name?: string;
@@ -145,26 +146,6 @@ function PostFormPage() {
 	const [progressIndex, setProgessIndex] = useState<string>("3");
 	const [categories, setCategories] = useState<Category>();
 	const [openModal, setOpenModal] = useState<boolean>(false);
-	const [openConfigModal, setOpenConfigModal] = useState<boolean>(false);
-	const [pdfUrl, setPdfUrl] = useState<string>();
-	const [modifiedConfig, setModifiedConfig] = useState<ConfigDataType[]>([]);
-	console.log("🚀 ~ PostFormPage ~ modifiedConfig:", modifiedConfig);
-
-	const handleConfigChange = (newText: any) => {
-		console.log(newText);
-		setModifiedConfig((prevModifiedConfig) => [...prevModifiedConfig, newText]);
-	};
-
-	const updateConfig = (form: any, index: number) => {
-		console.log(modifiedConfig);
-
-		const newModifiedConfig = [...modifiedConfig];
-		newModifiedConfig[index] = form;
-		setModifiedConfig(newModifiedConfig);
-
-		console.log(modifiedConfig);
-	};
-
 	const [formData, setFormData] = useState<FormData>({
 		name: "",
 		detail: "",
@@ -183,6 +164,37 @@ function PostFormPage() {
 			id: undefined,
 		},
 	});
+	const [openConfigModal, setOpenConfigModal] = useState<boolean>(false);
+	const [pdfUrl, setPdfUrl] = useState<string>();
+	const [modifiedConfig, setModifiedConfig] = useState<ConfigDataType[]>([]);
+	console.log("🚀 ~ PostFormPage ~ modifiedConfig:", modifiedConfig);
+
+	const prepareData = () => {
+		const readyConfig = modifiedConfig.map((config) => ({
+			type: config.type?.code,
+			posX: config.posX,
+			posY: config.posY,
+			data: config.data?.code,
+		}));
+		console.log(readyConfig);
+		setFormData((prevData) => ({
+			...prevData,
+			modifiedConfig: readyConfig,
+		}));
+
+		setProgessIndex("4");
+	};
+
+	const handleConfigChange = (newText: any) => {
+		console.log(newText);
+		setModifiedConfig((prevModifiedConfig) => [...prevModifiedConfig, newText]);
+	};
+
+	const updateConfig = (form: any, index: number) => {
+		const newModifiedConfig = [...modifiedConfig];
+		newModifiedConfig[index] = form;
+		setModifiedConfig(newModifiedConfig);
+	};
 
 	const handleInputChange = (
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -249,7 +261,7 @@ function PostFormPage() {
 				const pages = pdfDoc.getPages();
 				if (modifiedConfig) {
 					modifiedConfig?.map((config: any) => {
-						const modifyPage = pages[Number(config?.page)];
+						const modifyPage = pages[Number(config?.page) - 1];
 						if (config?.type.code == "drawText") {
 							modifyPage.drawText(config?.data.mock, {
 								x: Number(config.posX),
@@ -271,7 +283,6 @@ function PostFormPage() {
 						}
 					});
 				}
-
 				const pdfBytes = await pdfDoc.save();
 				const blob = new Blob([pdfBytes], { type: "application/pdf" });
 				const modifiedPdfUrl = URL.createObjectURL(blob);
@@ -283,9 +294,82 @@ function PostFormPage() {
 		}
 	}
 
+	const postForm = async () => {
+		try {
+			const response = await ax.post(`${conf.urlPrefix}/forms`, {
+				...formData,
+				pdfURL: "waiting",
+			});
+			console.log(response);
+			if (selectedFile) {
+				const onSendFormData = new FormData();
+				onSendFormData.append("file", selectedFile);
+				onSendFormData.append("id", response.data.id);
+				const updatePicResponse = await ax.post(
+					`${conf.urlPrefix}/categories/upload-pdf-form`,
+					onSendFormData
+				);
+				console.log(updatePicResponse);
+			}
+			toast.success("บันทึกสำเร็จ!!");
+		} catch (error) {
+			toast.error("บันทึกไม่สำเร็จ!!");
+			return error;
+		}
+	};
+
 	useEffect(() => {
 		fetchCategories();
 	}, []);
+
+	if (progressIndex === "4") {
+		return (
+			<div className="h-screen background-image">
+				<Toaster />
+				<Navbar />
+				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
+					<div className="w-96 sm:w-7/12 md:pt-7 px-2">
+						<PostProgressStep name={"4/4 - ยืนยันการโพสต์"} />
+						<div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-2xl">
+							<div className="pt-5 text-center">
+								<h2 className="text-2xl font-semibold mb-2">ยืนยันการโพสต์</h2>
+								<p className="text-gray-600">
+									คุณต้องการโพสต์ใช่หรือไม่? กรุณาตรวจสอบข้อมูลให้ครบก่อนโพสต์
+								</p>
+							</div>
+							<button
+								onClick={() => postForm()}
+								type="button"
+								className="my-5 mb-7 w-1/2 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+							>
+								บันทึก
+							</button>
+						</div>
+						<div className="flex justify-center space-x-2 pt-2">
+							<svg
+								onClick={() => setProgessIndex("3")}
+								className="w-9 h-9 text-black bg-white rounded-full p-2 dark:text-white"
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								fill="none"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="m15 19-7-7 7-7"
+								/>
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
 	if (progressIndex === "3") {
 		return (
@@ -293,7 +377,7 @@ function PostFormPage() {
 				<Navbar />
 				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
 					<div className="w-96 sm:w-8/12 md:pt-7 px-2">
-						<PostProgressStep name={"3/3 - ตั้งค่าฟอร์ม"} />
+						<PostProgressStep name={"3/4 - ตั้งค่าฟอร์ม"} />
 						<div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-2xl">
 							<div className="mb-1 pt-5 text-center">
 								<h2 className="text-2xl font-semibold mb-2">ตั้งค่าฟอร์ม</h2>
@@ -358,7 +442,7 @@ function PostFormPage() {
 								/>
 							</svg>
 							<svg
-								onClick={() => setProgessIndex("3")}
+								onClick={() => prepareData()}
 								className="w-9 h-9 text-black bg-white rounded-full p-2 dark:text-white"
 								aria-hidden="true"
 								xmlns="http://www.w3.org/2000/svg"
@@ -388,7 +472,7 @@ function PostFormPage() {
 				<Navbar />
 				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
 					<div className="w-96 sm:w-6/12">
-						<PostProgressStep name={"1/3 - อัพโหลดฟอร์ม"} />
+						<PostProgressStep name={"1/4 - อัพโหลดฟอร์ม"} />
 						<div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-2xl">
 							<div className="mb-10 pt-7 text-center">
 								<h2 className="text-2xl font-semibold mb-2">อัพโหลดฟอร์ม</h2>
@@ -468,7 +552,7 @@ function PostFormPage() {
 				<Navbar />
 				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
 					<div className="w-96 sm:w-6/12 md:pt-7 px-2">
-						<PostProgressStep name={"2/3 - เพิ่มรายละเอียด"} />
+						<PostProgressStep name={"2/4 - เพิ่มรายละเอียด"} />
 						<div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-2xl">
 							<div className="mb-1 pt-5 text-center">
 								<h2 className="text-2xl font-semibold mb-2">รายละเอียดฟอร์ม</h2>
