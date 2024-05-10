@@ -330,7 +330,7 @@ function PostFormPage() {
 				<Navbar />
 				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
 					<div className="w-96 sm:w-7/12 md:pt-7 px-2">
-						<PostProgressStep name={"4/4 - ยืนยันการโพสต์"} />
+						<PostProgressStep name={"4/4 - ยืนยันการโพสต์"} progress="w-4/4" />
 						<div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-2xl">
 							<div className="pt-5 text-center">
 								<h2 className="text-2xl font-semibold mb-2">ยืนยันการโพสต์</h2>
@@ -378,7 +378,7 @@ function PostFormPage() {
 				<Navbar />
 				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
 					<div className="w-96 sm:w-8/12 md:pt-7 px-2">
-						<PostProgressStep name={"3/4 - ตั้งค่าฟอร์ม"} />
+						<PostProgressStep name={"3/4 - ตั้งค่าฟอร์ม"} progress="w-3/4" />
 						<div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-2xl">
 							<div className="mb-1 pt-5 text-center">
 								<h2 className="text-2xl font-semibold mb-2">ตั้งค่าฟอร์ม</h2>
@@ -473,7 +473,7 @@ function PostFormPage() {
 				<Navbar />
 				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
 					<div className="w-96 sm:w-6/12">
-						<PostProgressStep name={"1/4 - อัพโหลดฟอร์ม"} />
+						<PostProgressStep name={"1/4 - อัพโหลดฟอร์ม"} progress="w-1/4" />
 						<div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-2xl">
 							<div className="mb-10 pt-7 text-center">
 								<h2 className="text-2xl font-semibold mb-2">อัพโหลดฟอร์ม</h2>
@@ -553,7 +553,7 @@ function PostFormPage() {
 				<Navbar />
 				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
 					<div className="w-96 sm:w-6/12 md:pt-7 px-2">
-						<PostProgressStep name={"2/4 - เพิ่มรายละเอียด"} />
+						<PostProgressStep name={"2/4 - เพิ่มรายละเอียด"} progress="w-2/4" />
 						<div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-2xl">
 							<div className="mb-1 pt-5 text-center">
 								<h2 className="text-2xl font-semibold mb-2">รายละเอียดฟอร์ม</h2>

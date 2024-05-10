@@ -2,14 +2,15 @@
 
 import { Feedbacks } from "@/modules/feedback";
 import { Table } from "flowbite-react";
+import { useState } from "react";
+import Link from "next/link";
+import conf from "@/conf/main";
 
 interface TableProps {
 	feedbacks?: Feedbacks;
 }
 
 export function FeedbackTable(props: TableProps) {
-	console.log(props.feedbacks);
-
 	return (
 		<div className="overflow-x-auto">
 			<Table>
@@ -34,12 +35,12 @@ export function FeedbackTable(props: TableProps) {
 							</Table.Cell>
 							<Table.Cell>{feedback.text}</Table.Cell>
 							<Table.Cell>
-								<a
-									href="#"
+								<Link
+									href={`${conf.clientPreflix}/admin/form/${feedback.form?.id}`}
 									className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
 								>
 									รายละเอียด
-								</a>
+								</Link>
 							</Table.Cell>
 							<Table.Cell>
 								{feedback.form != null ? feedback.form.name : "ไม่ระบุ"}

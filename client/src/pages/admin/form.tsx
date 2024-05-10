@@ -99,8 +99,8 @@ function HomePage() {
 					</h1>
 					<MultipleFormSwiper forms={mostViewForms} />
 				</div>
-				<div className="flex-col bg-white h-full px-5 py-10 items-start">
-					<div className="flex flex-wrap px-5 space-x-5 justify-around items-center">
+				<div className="flex-col bg-white h-full px-4 py-10 items-start">
+					<div className="flex max-md:flex-wrap px-5 space-x-5 justify-around items-center">
 						{/* <h1 className="text-2xl md:text-3xl font-bold w-full">ฟอร์มทั้งหมด</h1> */}
 						<FilterDropdown
 							categories={categoryWithForms}
@@ -162,7 +162,7 @@ function HomePage() {
 												>
 													<div
 														className="flex-shrink-0 m-4 relative hover:scale-105 transition duration-500 cursor-pointer overflow-hidden bg-blue-400 rounded-lg max-w-xs shadow-lg"
-														style={{ width: "250px", height: "300px" }}
+														style={{ width: "250px", height: "350px" }}
 													>
 														<svg
 															className="absolute bottom-0 left-0 mb-8"
