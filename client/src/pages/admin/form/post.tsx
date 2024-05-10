@@ -22,6 +22,7 @@ interface FormData {
 		posX?: number;
 		posY?: number;
 		gap?: number;
+		page?: number;
 		data?: string;
 	}[];
 	category: {
@@ -143,7 +144,7 @@ interface ConfigDataType {
 
 function PostFormPage() {
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
-	const [progressIndex, setProgessIndex] = useState<string>("3");
+	const [progressIndex, setProgessIndex] = useState<string>("1");
 	const [categories, setCategories] = useState<Category>();
 	const [openModal, setOpenModal] = useState<boolean>(false);
 	const [formData, setFormData] = useState<FormData>({
@@ -172,11 +173,11 @@ function PostFormPage() {
 	const prepareData = () => {
 		const readyConfig = modifiedConfig.map((config) => ({
 			type: config.type?.code,
-			posX: config.posX,
-			posY: config.posY,
+			posX: Number(config.posX),
+			posY: Number(config.posY),
 			data: config.data?.code,
+			page: config.page ? config.page - 1 : undefined,
 		}));
-		console.log(readyConfig);
 		setFormData((prevData) => ({
 			...prevData,
 			modifiedConfig: readyConfig,
@@ -257,8 +258,8 @@ function PostFormPage() {
 
 				pdfDoc.registerFontkit(fontkit);
 				const customFont = await pdfDoc.embedFont(fontBytes);
-
 				const pages = pdfDoc.getPages();
+
 				if (modifiedConfig) {
 					modifiedConfig?.map((config: any) => {
 						const modifyPage = pages[Number(config?.page) - 1];
@@ -306,7 +307,7 @@ function PostFormPage() {
 				onSendFormData.append("file", selectedFile);
 				onSendFormData.append("id", response.data.id);
 				const updatePicResponse = await ax.post(
-					`${conf.urlPrefix}/categories/upload-pdf-form`,
+					`${conf.urlPrefix}/forms/upload-pdf-form`,
 					onSendFormData
 				);
 				console.log(updatePicResponse);

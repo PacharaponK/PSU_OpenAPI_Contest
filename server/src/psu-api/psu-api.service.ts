@@ -35,7 +35,7 @@ export class PsuApiService {
           address: findStudent.address,
           scholarship: findStudent.scholarship,
         };
-      
+
         return selectedProperties;
       }
       if (!findStudent) {
@@ -45,7 +45,7 @@ export class PsuApiService {
           address: studentDetail?.address,
           scholarship: studentDetail?.scholarship,
         });
-      } 
+      }
       return studentDetail;
     } catch (error) {
       console.error("Error fetching student detail:", error);
