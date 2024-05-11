@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import ax from "@/conf/ax";
 import conf from "@/conf/main";
 import { Feedbacks } from "@/modules/feedback";
+import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
 export default function FeedbackPage() {
@@ -20,6 +21,9 @@ export default function FeedbackPage() {
 
 	return (
 		<div className="h-screen background-image">
+			<Head>
+				<title>FormHub : การตอบกลับ</title>
+			</Head>
 			<Navbar />
 			<div className="flex h-screen justify-center items-center">
 				<div className="flex flex-col justify-start w-3/4 p-5 bg-white rounded-3xl shadow-2xl shadow-[#6ca4ee]">

@@ -12,6 +12,7 @@ import MultipleFormSwiper from "@/components/MultipleFormSlider";
 import ax from "@/conf/ax";
 import { adminRoute, Route } from "@/modules/routes";
 import { FilterDropdown } from "@/components/FilterDropdown";
+import Head from "next/head";
 
 export function Landing() {
 	return (
@@ -48,13 +49,10 @@ type DropdownState = {
 };
 
 function HomePage() {
-	const { studentDetail } = useStudentContext();
 	const [categoryWithForms, setCategoryWithForms] = useState<Category>([]);
-	const [mostViewForms, setMostViewForms] = useState<FormWithCategory>();
 	const [categorySelected, setCategorySelected] =
 		useState<string>("ฟอร์มทั้งหมด");
 	const [searchQuery, setSearchQuery] = useState<string>("");
-	const [formCount, setFormCount] = useState<number>(0);
 
 	const fetchFormsByCategory = async () => {
 		const listForms = await ax.get(`${conf.urlPrefix}/categories`);
@@ -65,40 +63,16 @@ function HomePage() {
 		fetchFormsByCategory();
 	}, []);
 
-	useEffect(() => {
-		const fetchFormsByMostView = async () => {
-			if (studentDetail) {
-				const listForms = await ax.put(`${conf.urlPrefix}/forms/mostView`, {
-					scholar: studentDetail?.scholarship,
-					dept: studentDetail?.deptNameThai,
-					dormDetail: studentDetail?.dormDetail,
-				});
-				setMostViewForms(listForms.data);
-			} else {
-				const listForms = await ax.put(
-					`${conf.urlPrefix}/forms/mostViewGuest`,
-					{}
-				);
-				setMostViewForms(listForms.data);
-			}
-		};
-
-		fetchFormsByMostView();
-	}, [studentDetail]);
-
 	return (
 		<div>
+			<Head>
+				<title>FormHub : ฟอร์ม</title>
+			</Head>
 			<div>
 				<Navbar />
 			</div>
 			{Landing()}
 			<div className="">
-				<div className="pt-8">
-					<h1 className="text-2xl md:text-3xl font-bold text-center">
-						ฟอร์มยอดนิยม
-					</h1>
-					<MultipleFormSwiper forms={mostViewForms} />
-				</div>
 				<div className="flex-col bg-white h-full px-4 py-10 items-start">
 					<div className="flex max-md:flex-wrap px-5 space-x-5 justify-around items-center">
 						{/* <h1 className="text-2xl md:text-3xl font-bold w-full">ฟอร์มทั้งหมด</h1> */}

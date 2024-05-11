@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useStudentContext } from "@/contexts/StudentContext";
 import { FormWithCategory } from "@/modules/formWithCategory";
 import MultipleFormSwiper from "@/components/MultipleFormSlider";
+import Head from "next/head";
 
 export function Landing() {
 	return (
@@ -106,6 +107,9 @@ function HomePage() {
 
 	return (
 		<div>
+			<Head>
+				<title>PSU Formhub - ฟอร์ม</title>
+			</Head>
 			<div>
 				<Navbar />
 			</div>
@@ -130,7 +134,7 @@ function HomePage() {
 										<div key={category.id} className="space-y-5">
 											<div className="pt-10 space-x-3 flex w-full flex-row justify-between">
 												<div className="flex flex-row space-x-3">
-													<div className="bg-opacity-65 bg-[#2372b5] w-[6vw] rounded-full max-lg:hidden"></div>
+													<div className="bg-[#76a9fa] w-[6vw] rounded-full max-lg:hidden"></div>
 													<svg
 														width="32"
 														height="32"
@@ -149,7 +153,7 @@ function HomePage() {
 														{category.name}
 													</span>
 												</div>
-												<div className="md:bg-opacity-65 md:bg-[#2371b5] md:w-[63vw] w-[15vw] rounded-full justify-end right flex items-center">
+												<div className="md:bg-[#76a9fa] md:w-[63vw] w-[15vw] rounded-full justify-end right flex items-center">
 													<svg
 														onClick={() => toggleDropdown(category.id)}
 														className="mr-5 text-end w-6 h-6 text-black md:text-white hover:text-gray-300 dark:text-white"

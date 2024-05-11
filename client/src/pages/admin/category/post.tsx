@@ -4,6 +4,7 @@ import Link from "next/link";
 import ax from "@/conf/ax";
 import conf from "@/conf/main";
 import toast, { Toaster } from "react-hot-toast";
+import Head from "next/head";
 
 interface FormData {
 	categoryName: string | undefined;
@@ -73,6 +74,9 @@ export default function PostCategoryPage() {
 
 	return (
 		<div className="h-screen background-image">
+			<Head>
+				<title>FormHub : โพสต์หมวดหมู่</title>
+			</Head>
 			<Navbar />
 			<div>
 				<Toaster />

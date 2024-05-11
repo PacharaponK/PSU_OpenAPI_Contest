@@ -12,6 +12,7 @@ import Stepper from "@/components/Stepper";
 import { Carousel } from "flowbite-react";
 import { useStudentContext } from "@/contexts/StudentContext";
 import ModalFB from "@/components/ModalFeedback";
+import Head from "next/head";
 
 function FormIdPage() {
 	const router = useRouter();
@@ -136,6 +137,9 @@ function FormIdPage() {
 
 	return (
 		<div>
+			<Head>
+				<title>{form?.name ?? "ไม่พบฟอร์มนี้"}</title>
+			</Head>
 			<Navbar />
 			{form?.picDetailURL.length == 0 ? (
 				<div className="h-screen background-image flex flex-col justify-center items-center">

@@ -1,4 +1,5 @@
 import { AuthContext, ContextProvider } from "@/contexts/Auth.context";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 
@@ -31,6 +32,9 @@ export default function LoginPage() {
 
 	return (
 		<ContextProvider>
+			<Head>
+				<title>เข้าสู่ระบบ</title>
+			</Head>
 			<div className="landing-background-image flex justify-center items-center h-screen">
 				{/* Left: Image */}
 				<div className="w-1/2 h-screen hidden lg:block">

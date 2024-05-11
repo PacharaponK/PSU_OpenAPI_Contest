@@ -11,6 +11,7 @@ import PreviewModal from "@/components/PreviewModal";
 import { ConfigFormTable } from "@/components/ConfigFormTable";
 import AppendConfigModal from "@/components/AppendConfigModal";
 import toast, { Toaster } from "react-hot-toast";
+import Head from "next/head";
 
 interface FormData {
 	name?: string;
@@ -326,6 +327,9 @@ function PostFormPage() {
 	if (progressIndex === "4") {
 		return (
 			<div className="h-screen background-image">
+				<Head>
+					<title>ขั้นตอนที่ 4 - ยืนยันการโพสต์</title>
+				</Head>
 				<Toaster />
 				<Navbar />
 				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
@@ -375,6 +379,9 @@ function PostFormPage() {
 	if (progressIndex === "3") {
 		return (
 			<div className="h-screen background-image">
+				<Head>
+					<title>ขั้นตอนที่ 3 - ตั้งค่าฟอร์ม</title>
+				</Head>
 				<Navbar />
 				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
 					<div className="w-96 sm:w-8/12 md:pt-7 px-2">
@@ -470,6 +477,9 @@ function PostFormPage() {
 	if (progressIndex === "1") {
 		return (
 			<div className="h-screen background-image">
+				<Head>
+					<title>ขั้นตอนที่ 1 - อัพโหลดฟอร์ม</title>
+				</Head>
 				<Navbar />
 				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
 					<div className="w-96 sm:w-6/12">
@@ -550,6 +560,9 @@ function PostFormPage() {
 	if (progressIndex === "2") {
 		return (
 			<div className="h-screen background-image">
+				<Head>
+					<title>ขั้นตอนที่ 2 - เพิ่มรายละเอียด</title>
+				</Head>
 				<Navbar />
 				<div className="flex flex-col justify-center items-center h-screen w-screen mx-auto ">
 					<div className="w-96 sm:w-6/12 md:pt-7 px-2">
