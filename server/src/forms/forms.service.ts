@@ -56,6 +56,20 @@ export class FormsService {
     return findMostView;
   }
 
+  async findByLastUpdated(options: any) {
+    const findMostView = await this.formRepository
+      .createQueryBuilder('form')
+      .leftJoinAndSelect('form.category', 'category')
+      .where('category.criterion IS NULL')
+      .orWhere('category.criterion = :deptName', { deptName: options?.dept })
+      .orWhere('category.criterion = :scholarName', { scholarName: options?.scholar })
+      .orWhere('category.criterion = :dormDetail', { dormDetail: options?.dormDetail })
+      .orderBy('form.updateDate', 'DESC')
+      .limit(7)
+      .getMany();
+    return findMostView;
+  }
+
   async findByName(name: string) {
     const findForm = await this.formRepository.find({
       where: {

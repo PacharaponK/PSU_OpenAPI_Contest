@@ -51,6 +51,8 @@ function HomePage() {
 	const [categoryWithForms, setCategoryWithForms] = useState<Category>([]);
 	const [dropdownOpen, setDropdownOpen] = useState<DropdownState>({});
 	const [mostViewForms, setMostViewForms] = useState<FormWithCategory>();
+	const [recentlyUpdateForms, setRecentlyUpdateForms] =
+		useState<FormWithCategory>();
 
 	const toggleDropdown = (categoryId: string) => {
 		setDropdownOpen((prevState) => ({
@@ -105,6 +107,31 @@ function HomePage() {
 		fetchFormsByMostView();
 	}, [studentDetail]);
 
+	useEffect(() => {
+		const fetchFormsByMostView = async () => {
+			if (studentDetail) {
+				const listForms = await axios.put(
+					`${conf.urlPrefix}/forms/recentlyUpdated`,
+					{
+						scholar: studentDetail?.scholarship,
+						dept: studentDetail?.deptNameThai,
+						dormDetail: studentDetail?.dormDetail,
+					}
+				);
+				setRecentlyUpdateForms(listForms.data);
+			} else {
+				const listForms = await axios.put(
+					`${conf.urlPrefix}/forms/mostViewGuest`,
+					{}
+				);
+				setRecentlyUpdateForms(listForms.data);
+			}
+		};
+
+		fetchFormsByMostView();
+	}, [studentDetail]);
+	console.log(recentlyUpdateForms);
+
 	return (
 		<div>
 			<Head>
@@ -120,6 +147,10 @@ function HomePage() {
 						ฟอร์มยอดนิยม
 					</h1>
 					<MultipleFormSwiper forms={mostViewForms} />
+					<h1 className="text-2xl mt-6 md:text-3xl font-bold text-center">
+						ฟอร์มที่อัพเดทล่าสุด
+					</h1>
+					<MultipleFormSwiper forms={recentlyUpdateForms} />
 				</div>
 				<div className="flex justify-center bg-white h-full lg:px-10 pb-5 items-start">
 					<div className="flex flex-col">

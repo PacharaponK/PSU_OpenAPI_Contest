@@ -65,13 +65,18 @@ export class FormsController {
   }
 
   @Put('mostView')
-  findByMostView(@Body() options:string[]) {
+  findByMostView(@Body() options: string[]) {
     return this.formsService.findByMostView(options);
   }
 
   @Put('mostViewGuest')
   findByMostViewGuest() {
     return this.formsService.findByMostViewGuest();
+  }
+
+  @Put('recentlyUpdated')
+  findByRecentlyUpdated(@Body() options: string[]) {
+    return this.formsService.findByLastUpdated(options);
   }
 
   @SerializeOptions({ groups: ['detail'] })
