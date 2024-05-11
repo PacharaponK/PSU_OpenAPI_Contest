@@ -108,7 +108,7 @@ function HomePage() {
 	}, [studentDetail]);
 
 	useEffect(() => {
-		const fetchFormsByMostView = async () => {
+		const fetchFormsByRecentlyUpdate = async () => {
 			if (studentDetail) {
 				const listForms = await axios.put(
 					`${conf.urlPrefix}/forms/recentlyUpdated`,
@@ -121,14 +121,14 @@ function HomePage() {
 				setRecentlyUpdateForms(listForms.data);
 			} else {
 				const listForms = await axios.put(
-					`${conf.urlPrefix}/forms/mostViewGuest`,
+					`${conf.urlPrefix}/forms/recentlyUpdatedGuest`,
 					{}
 				);
 				setRecentlyUpdateForms(listForms.data);
 			}
 		};
 
-		fetchFormsByMostView();
+		fetchFormsByRecentlyUpdate();
 	}, [studentDetail]);
 	console.log(recentlyUpdateForms);
 
@@ -142,17 +142,19 @@ function HomePage() {
 			</div>
 			{Landing()}
 			<div className="">
-				<div className="pt-8">
+				<div className="pt-10">
 					<h1 className="text-2xl md:text-3xl font-bold text-center">
 						ฟอร์มยอดนิยม
 					</h1>
 					<MultipleFormSwiper forms={mostViewForms} />
+					<hr className="w-3/4 h-1 mx-auto my-4 bg-gray-200 border-0 rounded md:my-10 dark:bg-gray-700"></hr>
 					<h1 className="text-2xl mt-6 md:text-3xl font-bold text-center">
 						ฟอร์มที่อัพเดทล่าสุด
 					</h1>
 					<MultipleFormSwiper forms={recentlyUpdateForms} />
+					<hr className="w-3/4 h-1 mx-auto my-4 bg-gray-200 border-0 rounded md:mb-5 md:mt-10 dark:bg-gray-700"></hr>
 				</div>
-				<div className="flex justify-center bg-white h-full lg:px-10 pb-5 items-start">
+				<div className="flex justify-center bg-white h-full lg:px-10 pb-10 items-start">
 					<div className="flex flex-col">
 						{categoryWithForms &&
 							categoryWithForms.map(

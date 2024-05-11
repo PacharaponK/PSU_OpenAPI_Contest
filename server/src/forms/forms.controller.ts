@@ -79,6 +79,11 @@ export class FormsController {
     return this.formsService.findByLastUpdated(options);
   }
 
+  @Put('recentlyUpdatedGuest')
+  findByRecentlyUpdatedGuest() {
+    return this.formsService.findByLastUpdatedGuest();
+  }
+
   @SerializeOptions({ groups: ['detail'] })
   @Get(':id')
   findOne(@Param('id') id: string) {

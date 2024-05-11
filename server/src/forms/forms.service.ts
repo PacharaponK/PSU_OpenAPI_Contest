@@ -70,6 +70,17 @@ export class FormsService {
     return findMostView;
   }
 
+  async findByLastUpdatedGuest() {
+    const findMostView = await this.formRepository
+      .createQueryBuilder('form')
+      .leftJoinAndSelect('form.category', 'category')
+      .where('category.criterion IS NULL')
+      .orderBy('form.updateDate', 'DESC')
+      .limit(7)
+      .getMany();
+    return findMostView;
+  }
+
   async findByName(name: string) {
     const findForm = await this.formRepository.find({
       where: {
