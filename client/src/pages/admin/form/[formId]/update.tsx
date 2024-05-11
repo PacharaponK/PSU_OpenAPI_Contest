@@ -244,6 +244,8 @@ function UpdateFormPage() {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedFile(file);
+    } else {
+      setPdfUrl(formData.pdfURL);
     }
   };
 
@@ -267,18 +269,19 @@ function UpdateFormPage() {
 
   async function modifyPdf() {
     try {
-      if (selectedFile) {
-        console.log(selectedFile);
-
-        const existingPdfBytes = await selectedFile.arrayBuffer();
+      if (formData.pdfURL) {
+        const url = `${conf.urlPrefix}/forms${formData.pdfURL}`;
+        const existingPdfBytes = await fetch(url).then((res) =>
+          res.arrayBuffer()
+        );
         const pdfDoc = await PDFDocument.load(existingPdfBytes);
         const fontUrl = "https://script-app.github.io/font/THSarabunNew.ttf";
         const fontBytes = await fetch(fontUrl).then((res) => res.arrayBuffer());
 
         pdfDoc.registerFontkit(fontkit);
         const customFont = await pdfDoc.embedFont(fontBytes);
-        const pages = pdfDoc.getPages();
 
+        const pages = pdfDoc.getPages();
         if (modifiedConfig) {
           modifiedConfig?.map((config: any) => {
             const modifyPage = pages[Number(config?.page) - 1];
@@ -309,6 +312,51 @@ function UpdateFormPage() {
         setPdfUrl(modifiedPdfUrl);
         setOpenModal(true);
       }
+      if (selectedFile) {
+        console.log(selectedFile);
+
+        const existingPdfBytes = await selectedFile.arrayBuffer();
+        const pdfDoc = await PDFDocument.load(existingPdfBytes);
+        const fontUrl = "https://script-app.github.io/font/THSarabunNew.ttf";
+        const fontBytes = await fetch(fontUrl).then((res) => res.arrayBuffer());
+
+        pdfDoc.registerFontkit(fontkit);
+        const customFont = await pdfDoc.embedFont(fontBytes);
+        const pages = pdfDoc.getPages();
+
+        if (modifiedConfig) {
+          modifiedConfig?.map((config: any) => {
+            const modifyPage = pages[Number(config?.page) - 1];
+            if (config?.type.code == "drawText" || config?.type == "drawText") {
+              modifyPage.drawText(config?.data.mock, {
+                x: Number(config.posX),
+                y: Number(config.posY),
+                size: 15,
+                font: customFont,
+                color: rgb(0, 0, 0),
+              });
+            }
+            if (
+              config?.type.code == "drawCircle" ||
+              config?.type == "drawCirclet"
+            ) {
+              modifyPage.drawCircle({
+                x: Number(config.posX),
+                y: Number(config.posY),
+                size: Number(config.size),
+                opacity: 0,
+                borderOpacity: 1,
+                borderColor: rgb(0, 0, 0),
+              });
+            }
+          });
+        }
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: "application/pdf" });
+        const modifiedPdfUrl = URL.createObjectURL(blob);
+        setPdfUrl(modifiedPdfUrl);
+        setOpenModal(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -318,9 +366,12 @@ function UpdateFormPage() {
     try {
       const response = await ax.put(`${conf.urlPrefix}/forms/${formId}`, {
         ...formData,
-        pdfURL: "waiting",
+        pdfURL: formData.pdfURL,
+        updateDate: new Date(),
       });
       console.log(response);
+      console.log("บันทึกสำเร็จ!!", formData);
+
       if (selectedFile) {
         const onSendFormData = new FormData();
         onSendFormData.append("file", selectedFile);
