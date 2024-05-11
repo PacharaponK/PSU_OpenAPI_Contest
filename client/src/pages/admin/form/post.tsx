@@ -12,6 +12,8 @@ import { ConfigFormTable } from "@/components/ConfigFormTable";
 import AppendConfigModal from "@/components/AppendConfigModal";
 import toast, { Toaster } from "react-hot-toast";
 import Head from "next/head";
+import ModalGuide from "@/components/ModalGuide";
+import ModalPdfGuide from "@/components/ModalPdfGuide";
 
 interface FormData {
 	name?: string;
@@ -169,7 +171,9 @@ function PostFormPage() {
 	const [openConfigModal, setOpenConfigModal] = useState<boolean>(false);
 	const [pdfUrl, setPdfUrl] = useState<string>();
 	const [modifiedConfig, setModifiedConfig] = useState<ConfigDataType[]>([]);
-	console.log("🚀 ~ PostFormPage ~ modifiedConfig:", modifiedConfig);
+	const [openGuideModal, setOpenGuideModal] = useState<boolean>(false);
+	const [guideType, setGuideType] = useState<any>();
+	const [openPdfGuide, setOpenPdfGuide] = useState<boolean>(false);
 
 	const prepareData = () => {
 		const readyConfig = modifiedConfig.map((config) => ({
@@ -196,6 +200,11 @@ function PostFormPage() {
 		const newModifiedConfig = [...modifiedConfig];
 		newModifiedConfig[index] = form;
 		setModifiedConfig(newModifiedConfig);
+	};
+
+	const handleOpenGuideModal = (type: string) => {
+		setOpenGuideModal(true);
+		setGuideType(type);
 	};
 
 	const handleInputChange = (
@@ -300,6 +309,8 @@ function PostFormPage() {
 		try {
 			const response = await ax.post(`${conf.urlPrefix}/forms`, {
 				...formData,
+				detail: formData.detail?.split("&"),
+				picDetailURL: formData.picDetailURL?.split("&"),
 				pdfURL: "waiting",
 			});
 			console.log(response);
@@ -387,8 +398,25 @@ function PostFormPage() {
 					<div className="w-96 sm:w-8/12 md:pt-7 px-2">
 						<PostProgressStep name={"3/4 - ตั้งค่าฟอร์ม"} progress="w-3/4" />
 						<div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-2xl">
-							<div className="mb-1 pt-5 text-center">
-								<h2 className="text-2xl font-semibold mb-2">ตั้งค่าฟอร์ม</h2>
+							<div className="mb-1 flex items-center pt-5 space-x-2 text-center">
+								<h2 className="text-2xl font-semibold">ตั้งค่าฟอร์ม</h2>
+								<svg
+									className="w-6 h-6 text-gray-500 hover:text-gray-700 cursor-pointer dark:text-white"
+									onClick={() => setOpenPdfGuide(true)}
+									aria-hidden="true"
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									fill="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										fill-rule="evenodd"
+										d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z"
+										clip-rule="evenodd"
+									/>
+								</svg>
+
 								{/* <p className="text-xs text-gray-500">
 									ไฟล์ควรเป็นนามสกุล .pdf เท่านั้น
 								</p> */}
@@ -428,6 +456,10 @@ function PostFormPage() {
 								studentData={studentData}
 								postData={postData}
 								onConfigChange={handleConfigChange}
+							/>
+							<ModalPdfGuide
+								openModal={openPdfGuide}
+								setOpenModal={setOpenPdfGuide}
 							/>
 						</div>
 						<div className="flex justify-center space-x-2 pt-2">
@@ -645,7 +677,10 @@ function PostFormPage() {
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="คณะวิทยาศาสตร์......"
 									/>
-									<button className="absolute inset-y-0 end-0 flex items-center px-4 bg-gray-200 dark:bg-gray-800 rounded-r-lg">
+									<button
+										onClick={() => handleOpenGuideModal("การเขียนรายละเอียด")}
+										className="absolute inset-y-0 end-0 flex items-center px-4 bg-gray-200 dark:bg-gray-800 rounded-r-lg"
+									>
 										คู่มือ
 									</button>
 								</div>
@@ -658,18 +693,20 @@ function PostFormPage() {
 								<div className="relative mb-6">
 									<div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
 										<svg
-											className="w-4 h-4 text-gray-500 dark:text-white"
+											className="w-4 h-4 text-gray-800 dark:text-white"
 											aria-hidden="true"
 											xmlns="http://www.w3.org/2000/svg"
 											width="24"
 											height="24"
-											fill="currentColor"
+											fill="none"
 											viewBox="0 0 24 24"
 										>
 											<path
-												fillRule="evenodd"
-												d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z"
-												clipRule="evenodd"
+												stroke="currentColor"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961"
 											/>
 										</svg>
 									</div>
@@ -682,7 +719,10 @@ function PostFormPage() {
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="https://reg.psu.ac.th/main/wp-content.jpg"
 									/>
-									<button className="absolute inset-y-0 end-0 flex items-center px-4 bg-gray-200 dark:bg-gray-800 rounded-r-lg">
+									<button
+										onClick={() => handleOpenGuideModal("การแนบลิงค์รูปภาพ")}
+										className="absolute inset-y-0 end-0 flex items-center px-4 bg-gray-200 dark:bg-gray-800 rounded-r-lg"
+									>
 										คู่มือ
 									</button>
 								</div>
@@ -765,6 +805,11 @@ function PostFormPage() {
 								/>
 							</svg>
 						</div>
+						<ModalGuide
+							openModal={openGuideModal}
+							setOpenModal={setOpenGuideModal}
+							type={guideType}
+						/>
 					</div>
 				</div>
 			</div>

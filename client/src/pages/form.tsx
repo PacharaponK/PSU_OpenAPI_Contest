@@ -154,6 +154,9 @@ function HomePage() {
 					<MultipleFormSwiper forms={recentlyUpdateForms} />
 					<hr className="w-3/4 h-1 mx-auto my-4 bg-gray-200 border-0 rounded md:mb-5 md:mt-10 dark:bg-gray-700"></hr>
 				</div>
+				<h1 className="text-2xl mt-8 md:text-3xl font-bold text-center">
+					ฟอร์มทั้งหมด
+				</h1>
 				<div className="flex justify-center bg-white h-full lg:px-10 pb-10 items-start">
 					<div className="flex flex-col">
 						{categoryWithForms &&

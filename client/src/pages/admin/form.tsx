@@ -73,6 +73,75 @@ function HomePage() {
 			</div>
 			{Landing()}
 			<div className="">
+				<div className="mt-5">
+					<div className="flex max-md:flex-wrap px-5 space-x-5 justify-around items-center">
+						<h1 className="text-2xl md:text-2xl font-medium ">
+							หมวดหมู่ทั้งหมด
+						</h1>
+						<hr className="w-8/12 h-2 mx-auto my-4 bg-[#64b8fd] border-0 rounded md:my-10 dark:bg-gray-700" />
+						<div className="relative text-gray-600 focus-within:text-gray-400">
+							<span className="absolute inset-y-0 left-0 flex items-center pl-2">
+								<button
+									type="submit"
+									className="p-1 focus:outline-none focus:shadow-outline"
+								>
+									<svg
+										fill="none"
+										stroke="currentColor"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										strokeWidth="2"
+										viewBox="0 0 24 24"
+										className="w-6 h-6"
+									>
+										<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+									</svg>
+								</button>
+							</span>
+							<input
+								type="search"
+								name="q"
+								value={searchQuery}
+								onChange={(e) => setSearchQuery(e.target.value)}
+								className="py-2 text-sm max-md:w-11/12  bg-white text-black rounded-full pl-10 focus:outline-none focus:bg-white focus:text-gray-900"
+								placeholder="ค้นหาหมวดหมู่"
+							/>
+						</div>
+					</div>
+					<div className="flex flex-wrap">
+						{categoryWithForms.map((category) => (
+							<div
+								key={category.id}
+								className="relative bg-gradient-to-b from-gray-100 to-blue-400 h-64 w-64 mx-auto px-5 mt-5 py-8 group rounded-3xl  overflow-hidden shadow-xl"
+							>
+								<img
+									src={
+										category.icon
+											? `${conf.categoryUrlPrefix}${category.icon}`
+											: "/mostViewIcon.png"
+									}
+									alt={category.name}
+									className="p-16 absolute w-full h-full inset-0 object-cover"
+								/>
+								<div className="absolute inset-0 w-full h-full rounded-3xl bg-black bg-opacity-0 transition duration-500 backdrop-filter group-hover:bg-opacity-20 group-hover:backdrop-blur"></div>
+								<div className="absolute inset-x-5 text-white">
+									<h2 className="text-xl text-black font-semibold mb-2">
+										{category.name}
+									</h2>
+									<p className="hidden group-hover:block text-sm font-medium uppercase tracking-wider mb-6">
+										เฉพาะนักศึกษา: {category.criterion ?? "ไม่ระบุ"}
+									</p>
+								</div>
+								<button className="text-white absolute inset-x-5 bottom-16 py-3 rounded-2xl font-semibold bg-red-500 shadow-lg hidden transition duration-200 hover:bg-red-700 group-hover:block">
+									ลบ
+								</button>
+								<button className="absolute inset-x-5 bottom-3 py-3 rounded-2xl font-semibold bg-white shadow-lg hidden transition duration-200 hover:bg-gray-300 group-hover:block">
+									แก้ไข
+								</button>
+							</div>
+						))}
+					</div>
+				</div>
 				<div className="flex-col bg-white h-full px-4 py-10 items-start">
 					<div className="flex max-md:flex-wrap px-5 space-x-5 justify-around items-center">
 						{/* <h1 className="text-2xl md:text-3xl font-bold w-full">ฟอร์มทั้งหมด</h1> */}
