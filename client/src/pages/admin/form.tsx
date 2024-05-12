@@ -13,6 +13,8 @@ import ax from "@/conf/ax";
 import { adminRoute, Route } from "@/modules/routes";
 import { FilterDropdown } from "@/components/FilterDropdown";
 import Head from "next/head";
+import ModalEditCategory from "@/components/ModalEditCategory";
+import { useRouter } from "next/router";
 
 export function Landing() {
 	return (
@@ -53,10 +55,19 @@ function HomePage() {
 	const [categorySelected, setCategorySelected] =
 		useState<string>("ฟอร์มทั้งหมด");
 	const [searchQuery, setSearchQuery] = useState<string>("");
+	const [openModal, setOpenModal] = useState<boolean>(false);
+	const [type, setType] = useState<string>("");
+	const [onEditCategory, setOnEditCategory] = useState<SingleCategory>();
 
 	const fetchFormsByCategory = async () => {
 		const listForms = await ax.get(`${conf.urlPrefix}/categories`);
 		setCategoryWithForms(listForms.data);
+	};
+
+	const handleOpenModal = (type: string, category: SingleCategory) => {
+		setOpenModal(true);
+		setType(type);
+		setOnEditCategory(category);
 	};
 
 	useEffect(() => {
@@ -108,11 +119,11 @@ function HomePage() {
 							/>
 						</div>
 					</div>
-					<div className="flex flex-wrap">
+					<div className="grid lg:grid-cols-5 md:grid-cols-3 gap-5 px-20">
 						{categoryWithForms.map((category) => (
 							<div
 								key={category.id}
-								className="relative bg-gradient-to-b from-gray-100 to-blue-400 h-64 w-64 mx-auto px-5 mt-5 py-8 group rounded-3xl  overflow-hidden shadow-xl"
+								className="relative bg-gradient-to-b from-gray-100 to-blue-400 h-64 w-64 mx-auto px-5 mt-5 py-8 group rounded-3xl overflow-hidden shadow-xl"
 							>
 								<img
 									src={
@@ -132,15 +143,27 @@ function HomePage() {
 										เฉพาะนักศึกษา: {category.criterion ?? "ไม่ระบุ"}
 									</p>
 								</div>
-								<button className="text-white absolute inset-x-5 bottom-16 py-3 rounded-2xl font-semibold bg-red-500 shadow-lg hidden transition duration-200 hover:bg-red-700 group-hover:block">
+								<button
+									onClick={() => handleOpenModal("ลบหมวดหมู่", category)}
+									className="text-white absolute inset-x-5 bottom-16 py-3 rounded-2xl font-semibold bg-red-500 shadow-lg hidden transition duration-200 hover:bg-red-700 group-hover:block"
+								>
 									ลบ
 								</button>
-								<button className="absolute inset-x-5 bottom-3 py-3 rounded-2xl font-semibold bg-white shadow-lg hidden transition duration-200 hover:bg-gray-300 group-hover:block">
+								<button
+									onClick={() => handleOpenModal("แก้ไขหมวดหมู่", category)}
+									className="absolute inset-x-5 bottom-3 py-3 rounded-2xl font-semibold bg-white shadow-lg hidden transition duration-200 hover:bg-gray-300 group-hover:block"
+								>
 									แก้ไข
 								</button>
 							</div>
 						))}
 					</div>
+					<ModalEditCategory
+						openModal={openModal}
+						setOpenModal={setOpenModal}
+						type={type}
+						category={onEditCategory}
+					/>
 				</div>
 				<div className="flex-col bg-white h-full px-4 py-10 items-start">
 					<div className="flex max-md:flex-wrap px-5 space-x-5 justify-around items-center">
