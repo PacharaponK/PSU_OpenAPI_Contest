@@ -1,6 +1,6 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 <p align="center">
-<img src="https://github.com/PacharaponK/PSU_OpenAPI_Contest/assets/153811120/72cedbf9-dff7-48bb-9126-e29e37972b55" alt="PSU FormHub Logo" width="240" height="240" />
+<img src="https://github.com/PacharaponK/PSU_OpenAPI_Contest/assets/153811120/72cedbf9-dff7-48bb-9126-e29e37972b55" alt="Logo" width="240" height="240" />
 </p>
 <p align="center">
   <img src="https://github.com/nodeonline/nodejscart/actions/workflows/build.yml/badge.svg" alt="Github Action">
