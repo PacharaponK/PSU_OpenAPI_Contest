@@ -284,7 +284,9 @@ function HomePage() {
 															</span>
 															<div className="flex justify-between">
 																<span className="block font-semibold text-xl">
-																	{form.name}
+																	{form.name.length > 70
+																		? `${form.name.slice(0, 70)}........`
+																		: form.name}
 																</span>
 															</div>
 														</div>

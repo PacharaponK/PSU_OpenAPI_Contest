@@ -457,7 +457,11 @@ function PostFormPage() {
 								postData={postData}
 								onConfigChange={handleConfigChange}
 							/>
-							<ModalPdfGuide openModal={openPdfGuide} />
+							<ModalPdfGuide
+								openModal={openPdfGuide}
+								setOpenModal={setOpenPdfGuide}
+								file={selectedFile}
+							/>
 						</div>
 						<div className="flex justify-center space-x-2 pt-2">
 							<svg
