@@ -196,10 +196,18 @@ function PostFormPage() {
 		setModifiedConfig((prevModifiedConfig) => [...prevModifiedConfig, newText]);
 	};
 
-	const updateConfig = (form: any, index: number) => {
-		const newModifiedConfig = [...modifiedConfig];
-		newModifiedConfig[index] = form;
-		setModifiedConfig(newModifiedConfig);
+	const updateConfig = (form: any, index: number, type?: string) => {
+		if (type == "delete") {
+			const newModifiedConfig = [...modifiedConfig];
+			newModifiedConfig.splice(index, 1);
+			setModifiedConfig(newModifiedConfig);
+		}
+		if (type == "edit") {
+			const newModifiedConfig = [...modifiedConfig];
+			newModifiedConfig[index] = form;
+			setModifiedConfig(newModifiedConfig);
+		}
+		console.log(modifiedConfig);
 	};
 
 	const handleOpenGuideModal = (type: string) => {
@@ -456,6 +464,7 @@ function PostFormPage() {
 								studentData={studentData}
 								postData={postData}
 								onConfigChange={handleConfigChange}
+								file={selectedFile}
 							/>
 							<ModalPdfGuide
 								openModal={openPdfGuide}
