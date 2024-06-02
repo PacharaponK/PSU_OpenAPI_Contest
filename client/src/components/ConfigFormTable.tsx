@@ -66,6 +66,9 @@ export function ConfigFormTable(props: any) {
 
 	const handleDeleteClick = (index: number) => {
 		setConfigIndex(index);
+		console.log(configIndex);
+		console.log(index);
+
 		props.onUpdateConfig(formData, configIndex, "delete");
 	};
 
