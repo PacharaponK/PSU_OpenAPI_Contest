@@ -373,9 +373,14 @@ function UpdateFormPage() {
 
         if (modifiedConfig) {
           modifiedConfig?.map((config: any) => {
-            const modifyPage = pages[Number(config?.page) - 1];
-            if (config?.type.code == "drawText" || config?.type == "drawText") {
-              modifyPage.drawText(config?.data.mock, {
+            const data =
+              studentData.filter((i) => i.code == config.data)[0] == undefined
+                ? "ไม่พบข้อมูล"
+                : studentData.filter((i) => i.code == config.data)[0].mock;
+
+            const modifyPage = pages[config?.page];
+            if (config?.type == "drawText") {
+              modifyPage.drawText(data ?? "ไม่บอก", {
                 x: Number(config.posX),
                 y: Number(config.posY),
                 size: 15,
@@ -383,14 +388,11 @@ function UpdateFormPage() {
                 color: rgb(0, 0, 0),
               });
             }
-            if (
-              config?.type.code == "drawCircle" ||
-              config?.type == "drawCirclet"
-            ) {
+            if (config?.type == "drawCircle") {
               modifyPage.drawCircle({
                 x: Number(config.posX),
                 y: Number(config.posY),
-                size: Number(config.size),
+                size: 8,
                 opacity: 0,
                 borderOpacity: 1,
                 borderColor: rgb(0, 0, 0),
@@ -403,6 +405,7 @@ function UpdateFormPage() {
         const modifiedPdfUrl = URL.createObjectURL(blob);
         setPdfUrl(modifiedPdfUrl);
         setOpenModal(true);
+        console.log(pdfUrl);
       }
     } catch (error) {
       console.log(error);
@@ -416,30 +419,31 @@ function UpdateFormPage() {
 
   const putForm = async () => {
     console.log(formData);
-    // try {
-    //   const response = await ax.put(`${conf.urlPrefix}/forms/${formId}`, {
-    //     ...formData,
-    //     pdfURL: formData.pdfURL,
-    //     updateDate: new Date(),
-    //   });
-    //   console.log(response);
-    //   console.log("บันทึกสำเร็จ!!", formData);
+    console.log(formData.pdfURL);
+    try {
+      const response = await ax.put(`${conf.urlPrefix}/forms/${formId}`, {
+        ...formData,
+        pdfURL: formData.pdfURL,
+        updateDate: new Date(),
+      });
+      console.log(response);
+      console.log("บันทึกสำเร็จ!!", formData);
 
-    //   if (selectedFile) {
-    //     const onSendFormData = new FormData();
-    //     onSendFormData.append("file", selectedFile);
-    //     onSendFormData.append("id", response.data.id);
-    //     const updatePicResponse = await ax.post(
-    //       `${conf.urlPrefix}/forms/upload-pdf-form`,
-    //       onSendFormData
-    //     );
-    //     console.log(updatePicResponse);
-    //   }
-    //   toast.success("บันทึกสำเร็จ!!");
-    // } catch (error) {
-    //   toast.error("บันทึกไม่สำเร็จ!!");
-    //   return error;
-    // }
+      if (selectedFile) {
+        const onSendFormData = new FormData();
+        onSendFormData.append("file", selectedFile);
+        onSendFormData.append("id", response.data.id);
+        const updatePicResponse = await ax.post(
+          `${conf.urlPrefix}/forms/upload-pdf-form`,
+          onSendFormData
+        );
+        console.log(updatePicResponse);
+      }
+      toast.success("บันทึกสำเร็จ!!");
+    } catch (error) {
+      toast.error("บันทึกไม่สำเร็จ!!");
+      return error;
+    }
   };
 
   useEffect(() => {
