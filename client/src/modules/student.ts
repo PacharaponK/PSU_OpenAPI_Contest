@@ -70,7 +70,8 @@ const StudentDetailSchema = z.object({
   dorm: z.string().nullable(),
   dormDetail: z.string().nullable(),
   address: z.string().nullable(),
-  scholarship: z.string().nullable()
+  scholarship: z.string().nullable(),
+  firstLogin: z.boolean().nullable()
 });
 
 const StudentImageSchema = z.object({

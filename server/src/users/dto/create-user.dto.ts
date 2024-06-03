@@ -1,6 +1,7 @@
 export class CreateUserDto {
-    studentId : string;
+    studentId: string;
     dorm: string;
-    address : string;
-    scholarship : string;
+    address: string;
+    scholarship: string;
+    firstLogin: boolean;
 }

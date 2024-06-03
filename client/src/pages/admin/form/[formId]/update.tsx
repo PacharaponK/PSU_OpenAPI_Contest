@@ -221,17 +221,18 @@ function UpdateFormPage() {
 
 	const updateConfig = (form: any, index: number, type?: string) => {
 		if (type == "delete") {
-			console.log(modifiedConfig);
-
 			const newModifiedConfig = [...modifiedConfig];
 			newModifiedConfig.splice(index, 1);
 			setModifiedConfig(newModifiedConfig);
-			console.log(newModifiedConfig);
-			console.log(modifiedConfig);
 		}
 		if (type == "edit") {
 			const newModifiedConfig = [...modifiedConfig];
+			console.log(newModifiedConfig);
+			console.log(form);
+
 			newModifiedConfig[index] = form;
+			console.log(newModifiedConfig);
+
 			setModifiedConfig(newModifiedConfig);
 		}
 		console.log(modifiedConfig);

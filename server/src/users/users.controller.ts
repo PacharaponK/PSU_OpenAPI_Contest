@@ -15,13 +15,13 @@ export class UsersController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
-  
-  @SerializeOptions({groups: ['detail']})
-  @Get("findByStudentId")
-  findByStudentId(id: string) {
+
+  @SerializeOptions({ groups: ['detail'] })
+  @Get("findByStudentId/:id")
+  findByStudentId(@Param('id') id: string) {
     return this.usersService.findByStudentId(id);
   }
-  
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);

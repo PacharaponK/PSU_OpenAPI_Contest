@@ -26,6 +26,8 @@ export class PsuApiService {
 
       studentDetail = response.data.data[0];
       const findStudent = await this.usersService.findByStudentId(studentDetail?.studentId);
+      console.log(findStudent);
+
       if (findStudent) {
         const selectedProperties = {
           ...studentDetail,
@@ -34,6 +36,7 @@ export class PsuApiService {
           dormDetail: findStudent.dormDetail,
           address: findStudent.address,
           scholarship: findStudent.scholarship,
+          firstLogin: findStudent.firstLogin,
         };
 
         return selectedProperties;
@@ -44,6 +47,7 @@ export class PsuApiService {
           dorm: studentDetail?.dorm,
           address: studentDetail?.address,
           scholarship: studentDetail?.scholarship,
+          firstLogin: true,
         });
       }
       return studentDetail;

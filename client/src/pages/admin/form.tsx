@@ -6,15 +6,11 @@ import conf from "@/conf/main";
 import { Category, SingleCategory } from "@/modules/category";
 import MultipleSwiper from "@/components/MultipleSlider";
 import Image from "next/image";
-import { useStudentContext } from "@/contexts/StudentContext";
-import { FormWithCategory } from "@/modules/formWithCategory";
-import MultipleFormSwiper from "@/components/MultipleFormSlider";
 import ax from "@/conf/ax";
 import { adminRoute, Route } from "@/modules/routes";
 import { FilterDropdown } from "@/components/FilterDropdown";
 import Head from "next/head";
 import ModalEditCategory from "@/components/ModalEditCategory";
-import { useRouter } from "next/router";
 
 export function Landing() {
 	return (

@@ -1,14 +1,14 @@
 import { Expose } from "class-transformer";
 import { Feedback } from "src/feedbacks/entities/feedback.entity";
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
-    @Expose({ groups: ['detail']})
-    @PrimaryColumn()
+    @Expose({ groups: ['detail'] })
+    @PrimaryGeneratedColumn()
     id: number;
 
-    @Expose({ groups: ['detail']})
+    @Expose({ groups: ['detail'] })
     @Column({ nullable: true })
     studentId: string;
 
@@ -23,6 +23,9 @@ export class User {
 
     @Column({ nullable: true })
     scholarship: string;
+
+    @Column({ default: true })
+    firstLogin: boolean;
 
     @OneToMany(() => Feedback, (feedback) => feedback.user)
     feedbacks: Feedback[];

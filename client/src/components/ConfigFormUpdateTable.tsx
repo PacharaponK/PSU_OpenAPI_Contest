@@ -1,6 +1,5 @@
 "use client";
 
-import { Feedbacks } from "@/modules/feedback";
 import { Table, Modal } from "flowbite-react";
 import { useState } from "react";
 
@@ -62,9 +61,11 @@ export function ConfigFormUpdateTable(props: any) {
 		const readyForm = {
 			...formData,
 			page: formData.page ? formData.page - 1 : 0,
+			type: formData.type.code,
+			data: formData.data.code,
 		};
 
-		props.onUpdateConfig(formData, configIndex, "edit");
+		props.onUpdateConfig(readyForm, configIndex, "edit");
 		setOpenConfigModal(false);
 	};
 	const handleInfoClick = (index: number) => {
@@ -73,8 +74,33 @@ export function ConfigFormUpdateTable(props: any) {
 		setFormData({
 			...props.configData[index],
 			page: props.configData[index].page + 1,
+			type: {
+				code:
+					props.postData.filter(
+						(i: any) => i.code == props.configData[index].type
+					)[0]?.code ?? props.configData[index].type,
+				name:
+					props.postData.filter(
+						(i: any) => i.code == props.configData[index].type
+					)[0]?.name ?? props.configData[index].type,
+			},
+			data: {
+				code:
+					props.studentData.filter(
+						(i: any) => i.code == props.configData[index].data
+					)[0]?.code ?? props.configData[index].data,
+				name:
+					props.studentData.filter(
+						(i: any) => i.code == props.configData[index].data
+					)[0]?.name ?? props.configData[index].data,
+				mock:
+					props.studentData.filter(
+						(i: any) => i.code == props.configData[index].data
+					)[0]?.mock ?? props.configData[index].data,
+			},
 		});
 	};
+	console.log(formData);
 
 	const handleDeleteClick = (index: number) => {
 		setConfigIndex(index);

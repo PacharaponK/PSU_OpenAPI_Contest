@@ -11,6 +11,7 @@ import { useStudentContext } from "@/contexts/StudentContext";
 import { FormWithCategory } from "@/modules/formWithCategory";
 import MultipleFormSwiper from "@/components/MultipleFormSlider";
 import Head from "next/head";
+import SettingProfileModal from "@/components/ModalSettingProfile";
 
 export function Landing() {
 	return (
@@ -53,6 +54,8 @@ function HomePage() {
 	const [mostViewForms, setMostViewForms] = useState<FormWithCategory>();
 	const [recentlyUpdateForms, setRecentlyUpdateForms] =
 		useState<FormWithCategory>();
+	const [settingProfileModal, setSettingProfileModal] =
+		useState<boolean>(false);
 
 	const toggleDropdown = (categoryId: string) => {
 		setDropdownOpen((prevState) => ({
@@ -82,6 +85,16 @@ function HomePage() {
 				console.error("Error fetching forms:", error);
 			}
 		};
+
+		if (studentDetail) {
+			console.log(studentDetail);
+
+			if (studentDetail.firstLogin == false) {
+				setSettingProfileModal(false);
+			} else {
+				setSettingProfileModal(true);
+			}
+		}
 
 		fetchFormsByCategory();
 	}, [studentDetail]);
@@ -142,6 +155,10 @@ function HomePage() {
 			</div>
 			{Landing()}
 			<div className="">
+				<SettingProfileModal
+					openModal={settingProfileModal}
+					setOpenModal={setSettingProfileModal}
+				/>
 				<div className="pt-10">
 					<h1 className="text-2xl md:text-3xl font-bold text-center">
 						ฟอร์มยอดนิยม
