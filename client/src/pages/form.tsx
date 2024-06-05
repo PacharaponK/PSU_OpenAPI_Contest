@@ -12,6 +12,7 @@ import { FormWithCategory } from "@/modules/formWithCategory";
 import MultipleFormSwiper from "@/components/MultipleFormSlider";
 import Head from "next/head";
 import SettingProfileModal from "@/components/ModalSettingProfile";
+import { useRouter } from "next/router";
 
 export function Landing() {
 	return (
@@ -57,6 +58,8 @@ function HomePage() {
 	const [settingProfileModal, setSettingProfileModal] =
 		useState<boolean>(false);
 
+	const router = useRouter();
+
 	const toggleDropdown = (categoryId: string) => {
 		setDropdownOpen((prevState) => ({
 			...prevState,
@@ -85,16 +88,6 @@ function HomePage() {
 				console.error("Error fetching forms:", error);
 			}
 		};
-
-		if (studentDetail) {
-			console.log(studentDetail);
-
-			if (studentDetail.firstLogin == false) {
-				setSettingProfileModal(false);
-			} else {
-				setSettingProfileModal(true);
-			}
-		}
 
 		fetchFormsByCategory();
 	}, [studentDetail]);
@@ -143,7 +136,17 @@ function HomePage() {
 
 		fetchFormsByRecentlyUpdate();
 	}, [studentDetail]);
-	console.log(recentlyUpdateForms);
+
+	useEffect(() => {
+		if (studentDetail) {
+			if (studentDetail.firstLogin == false) {
+				setSettingProfileModal(false);
+			}
+			if (studentDetail.firstLogin == true && router.query.first_login) {
+				setSettingProfileModal(true);
+			}
+		}
+	}, [studentDetail]);
 
 	return (
 		<div>

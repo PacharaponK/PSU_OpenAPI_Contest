@@ -7,27 +7,27 @@ import { StudentProvider } from "../contexts/StudentContext";
 import { ContextProvider } from "@/contexts/Auth.context";
 
 const oidcConfig = {
-  onSigninCallback: (user: any) => {
-    window.location.href = `${Route.form.formList}`;
-  },
-  authority:
-    "http://psusso-test.psu.ac.th/application/o/psuapi-contest-nextapi",
-  client_id: "j6eSrMS08CLwLUprhFAlg6FB8o0JUF8mtuHapoDk",
-  scope: "openid email profile offline_access",
-  response_ype: "code",
-  silent_renew: true,
-  use_refresh_token: true,
-  redirect_uri: `${conf.clientPreflix}${Route.form.formList}`,
+	onSigninCallback: (user: any) => {
+		window.location.href = `${Route.form.formFirstLogin}`;
+	},
+	authority:
+		"http://psusso-test.psu.ac.th/application/o/psuapi-contest-nextapi",
+	client_id: "j6eSrMS08CLwLUprhFAlg6FB8o0JUF8mtuHapoDk",
+	scope: "openid email profile offline_access",
+	response_ype: "code",
+	silent_renew: true,
+	use_refresh_token: true,
+	redirect_uri: `${conf.clientPreflix}${Route.form.formList}`,
 };
 
 export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <AuthProvider {...oidcConfig}>
-      <ContextProvider>
-      <StudentProvider>
-        <Component {...pageProps} />
-      </StudentProvider>
-      </ContextProvider>
-    </AuthProvider>
-  );
+	return (
+		<AuthProvider {...oidcConfig}>
+			<ContextProvider>
+				<StudentProvider>
+					<Component {...pageProps} />
+				</StudentProvider>
+			</ContextProvider>
+		</AuthProvider>
+	);
 }
